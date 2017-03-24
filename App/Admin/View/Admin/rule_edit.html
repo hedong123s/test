@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<include file="Public/title" />
+</head>
+
+<body>
+<div class="mainWrap">
+	
+    <!--标题-->
+    <div class="mainWrapHeader">
+    	<h1 class="mainWrapTit">{$seotitle}</h1>
+        <!--切换需要，写对应ID，及class-->
+    </div>
+    <!--标题-->
+    
+    <form action="{:U('rule_save',array('action'=>'edit','id'=>$data['id']))}" method="post" class="dataForm" id="dataForm">
+    <div class="mainWrapBd">
+    	<div class="tab-con" id="tab-works">
+            <table cellpadding="0" border="0" cellspacing="0" class="stdedit">
+                <tr>
+                    <th>规则名称</th>
+                    <td><input type="text" name="name" id="name" value="{$data['name']}" class="sys_text" /></td>
+                </tr>
+                <tr>
+                    <th>规则标识</th>
+                    <td><input type="text" name="value" id="rules" value="{$data['value']}" class="sys_text" /><span class="cnote">请保证规则唯一性</span></td>
+                </tr>
+                <tr>
+                    <th>所属模块</th>
+                    <td>
+                    	<select name="typeid" id="typeid">
+                        	<option value="">请选择所属模块</option>
+                            <foreach name="ruleTypes" item="v">
+                            <option value="{$key}" <if condition="$data['typeid'] eq $key">selected="selected"</if>>{$v}</option>
+                            </foreach>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>是否启用</th>
+                    <td><label><input type="checkbox" name="status" <if condition="$data['status'] eq '1'">checked="checked"</if> value="1" /> 启用</label><span class="cnote">未启用将不生效</span></td>
+                </tr>
+            </table>
+            
+        </div>        
+        
+        <div class="stdeditSubmit"><input type="submit" class="submit" value="提 交" /> <input type="button" value="返回上一页" class="reset" onclick="history.go(-1);" /></div>
+    </div>
+    </form>
+    
+</div>
+</body>
+</html>
+<script type="text/javascript">
+$(function(){
+	//表单验证
+	$.formValidator.initConfig({formID:"dataForm",mode:'AutoTip',onError:function(msg){/*alert(msg)*/}});
+	$("#name").formValidator({onShow:"",onFocus:"请输入规则名称"}).inputValidator({min:1,max:30,onError:"请输入规则名称"})
+	$("#rules").formValidator({onShow:'',onFocus:"请输入规则标识"}).inputValidator({min:1,max:150,onError:"请输入规格标识",empty:{leftEmpty:false,rightEmpty:false,emptyError:"两边不能有空符号"}}).ajaxValidator({
+		dataType : "json",
+		type:'post',
+		url : "{:U('checkrules')}",
+		data:{
+			"id":"{$data['id']}"
+		},
+		success : function(data){
+			if(data.error==0){
+				return true;
+			}
+		},
+		buttons: $(".submit"),
+		onError : "该规则已存在，请更换",
+		onWait : "正在校验，请稍候..."
+	});
+	$("#typeid").formValidator({onShow:"",onFocus:'请选择所属模块'}).inputValidator({min:1,onError:"请选择所属模块"});
+});
+</script>

@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<include file="Public/title" />
+</head>
+
+<body>
+<div class="mainWrap">
+	
+    <!--标题-->
+    <div class="mainWrapHeader">
+    	<h1 class="mainWrapTit">{$seotitle}</h1>
+        <!--切换需要，写对应ID，及class-->
+    </div>
+    <!--标题-->
+    
+    <form action="{:U('role_save',array('action'=>'add'))}" method="post" class="dataForm" id="dataForm">
+    <div class="mainWrapBd">
+    	<div class="tab-con" id="tab-works">
+        	
+            <table cellpadding="0" border="0" cellspacing="0" class="stdedit">
+                <tr>
+                    <th>管理组名称</th>
+                    <td><input type="text" name="name" id="name" class="sys_text" /></td>
+                </tr>
+                <tr>
+                    <th>说明</th>
+                    <td><textarea name="description" class="sys_text sys_textarea350"></textarea></td>
+                </tr>
+            </table>
+            
+        </div>        
+        
+        <div class="stdeditSubmit"><input type="submit" class="submit" value="提 交" /> <input type="button" value="返回上一页" class="reset" onclick="history.go(-1);" /></div>
+    </div>
+    </form>
+</div>
+</body>
+</html>

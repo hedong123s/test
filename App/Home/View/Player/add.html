@@ -1,0 +1,283 @@
+<extend name="Layouts/applayer" />
+
+<block name="title">列表页</block>
+
+<block name="header-skin">
+</block>
+
+
+<block name="wrapper">
+    <div class="wrapper">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel">
+                    <div class="panel-heading">
+                        添加选手
+                    </div>
+					
+                    <div class="panel-body" >
+                    	<form class="form-signin layer-form" action="{:U('member/doauth',array('act'=>'player'))}" id="dataForm" method="post">
+                        <!-- tools -->
+                        <div class='t_title'>
+                            <span class='xm'>姓名</span>
+                            <span class='sfz'>身份证号码</span>
+                        </div>
+
+                        <div class="panel" >
+		                    <input type="text" class="control1" name="name" placeholder="请输入选手姓名" autofocus >
+				            <input type="text" class="control2" name="certid" placeholder="请输入身份证号码" autofocus>
+                            <input type="hidden" name="lock"  value="0" >
+							<span class="tips" ></span>
+		                </div> 
+
+                        <div class="panel">
+                            <input type="text" class="control1" name="name" placeholder="请输入选手姓名" autofocus >
+                            <input type="text" class="control2" name="certid" placeholder="请输入身份证号码" autofocus>
+							<input type="hidden" name="lock"  value="0" >
+                            <span class="tips" ></span>
+                        </div> 
+
+                        <div class="panel">
+                            <input type="text" class="control1" name="name" placeholder="请输入选手姓名" autofocus >
+                            <input type="text" class="control2" name="certid" placeholder="请输入身份证号码" autofocus>
+							<input type="hidden" name="lock"  value="0" >
+                            <span class="tips" ></span>
+                        </div> 
+
+                        <div class="panel">
+                            <input type="text" class="control1" name="name" placeholder="请输入选手姓名" autofocus >
+                            <input type="text" class="control2" name="certid" placeholder="请输入身份证号码" autofocus>
+							<input type="hidden" name="lock"  value="0" >
+                            <span class="tips" ></span>
+                        </div> 
+
+                        <div class="panel">
+                            <input type="text" class="control1" name="name" placeholder="请输入选手姓名" autofocus >
+                            <input type="text" class="control2" name="certid" placeholder="请输入身份证号码" autofocus>
+							<input type="hidden" name="lock"  value="0" >
+                            <span class="tips" ></span>
+                        </div> 
+
+                        <div class="panel">
+                            <input type="text" class="control1" name="name" placeholder="请输入选手姓名" autofocus >
+                            <input type="text" class="control2" name="certid" placeholder="请输入身份证号码" autofocus>
+							<input type="hidden" name="lock"  value="0" >
+                            <span class="tips" ></span>
+                        </div> 
+						<div class="panel">
+                            <input type="text" class="control1" name="name" placeholder="请输入选手姓名" autofocus >
+                            <input type="text" class="control2" name="certid" placeholder="请输入身份证号码" autofocus>
+							<input type="hidden" name="lock"  value="0" >
+                            <span class="tips" ></span>
+                        </div> 
+
+                        <div class="panel">
+                            <input type="text" class="control1" name="name" placeholder="请输入选手姓名" autofocus >
+                            <input type="text" class="control2" name="certid" placeholder="请输入身份证号码" autofocus>
+							<input type="hidden" name="lock"  value="0" >
+                            <span class="tips" ></span>
+                        </div> 
+
+                        <div class="panel">
+                            <input type="text" class="control1" name="name" placeholder="请输入选手姓名" autofocus >
+                            <input type="text" class="control2" name="certid" placeholder="请输入身份证号码" autofocus>
+							<input type="hidden" name="lock"  value="0" >
+                            <span class="tips" ></span>
+                        </div> 
+
+                        <div class="panel">
+                            <input type="text" class="control1" name="name" placeholder="请输入选手姓名" autofocus >
+                            <input type="text" class="control2" name="certid" placeholder="请输入身份证号码" autofocus>
+							<input type="hidden" name="lock"  value="0" >
+                            <span class="tips" ></span>
+                        </div> 
+
+
+						<button class="btn btn-lg " type="button" onClick="checkcertid('close');"  style="">保存并关闭</button> 
+                        <button class="btn btn-lg" type="button" onClick="checkcertid('add');" style="width: 56%; float:right;">保存并继续添加</button> 
+		                </form>                   
+                    </div>
+                	
+                </div>
+            </div>        
+        </div>
+    </div>
+</block>
+
+<block name="bottom-script">
+<script>
+// 表单提交
+$('#dataForm').submit(function(){
+
+    //当你在iframe页面关闭自身时 
+    layer.load();         
+    var index = parent.layer.getFrameIndex(window.top.name); //先得到当前iframe层的索引
+    parent.layer.close(index); //再执行关闭 
+    window.top.location.reload();
+    //var form = $(this);
+    
+    /*$.post(form.attr('action'), form.serialize(), function(d){
+        layer.closeAll('loading');
+        
+        if (d.status) {
+            //当你在iframe页面关闭自身时          
+            var index = parent.layer.getFrameIndex(window.top.name); //先得到当前iframe层的索引
+            parent.layer.close(index); //再执行关闭 
+            window.top.location.reload();
+                       
+        } else {
+            layer.msg(d.msg);
+            return false;
+        }
+    }, 'json');*/
+
+    return false;
+})
+high_light_menu('{:U('Index/lists')}');  // 高亮菜单
+/*
+$(":input[name='name']").blur(function(event) {
+    var name = $(this).val();
+    $.post('{:U('checkname')}', {'name': name}, function(data) {
+        if(data.status == false){
+            //layer.msg(data.msg);
+            return false;
+        }
+        
+    });
+})
+$(":input[name='certid']").blur(function(event) {
+    var certid = $(this).val();
+    var okStyle = $(this).next();
+    var name =  $(this).prev().val(); 
+    $.post('{:U('checkcertid')}', {'certid': certid,'name':name}, function(data) {
+        if(data.status == false){
+            //layer.msg(data.msg);
+            okStyle.css({"display":"block"}).html(data.msg);
+            return false;
+        }else{
+            console.log(111111111);
+            okStyle.css({"display":"block"}).html("已成功添加");
+            //layer.msg(data.msg);
+            //console.log(okStyle);
+            
+            //console.log($(this).closest('span'));
+            //console.log($(this).find("span"));
+            //$(this).attr('disabled','disabled');
+            
+        }
+        
+    });
+
+})
+*/
+var limittime = 0;
+var temptimer;
+function runtime() {
+	//layer.msg(limittime);
+    limittime--;
+    if (limittime == 0) {
+       // limittime = 6;
+        return;
+    }
+    temptimer=setTimeout("runtime()", 1000);
+}
+
+function checkcertid(action){
+	if(limittime>0){
+		layer.msg("身份证信息错误，"+limittime+"秒后重试。累计错误输入超过10次，将限制操作。请即联系（13702544490）");
+		return;
+	}
+	var addcount=0;
+	var errorcount=0;
+	$("#dataForm :input[name='certid']").each(function(i){
+		var name =  $("#dataForm :input[name='name']").eq(i).val(); 
+		var certid = $(this).val();
+		var lock =  $("#dataForm :input[name='lock']").eq(i).val(); 
+		var okStyle =$("#dataForm .panel .tips").eq(i);
+		if((name.length>0||certid.length>0)&&lock==0){
+			//$.post('/checkcertid.asp', {'certid': certid,'name':name}, function(data) {
+			$.ajax({  
+			url : '{:U('checkcertid')}',  
+			data: {'certid': certid,'name':name}, 
+			async : false, // 注意此处需要同步，因为返回完数据后，下面才能让结果的第一条selected  
+			type : "POST",  
+			dataType : "json",  
+			success : function(data) {  
+			//alert(certid)
+				//alert(data.status+data.msg);
+				if(data.status == false){
+				   errorcount++;
+					okStyle.css({"display":"block"}).html(data.msg);
+					return false;
+				}else{
+				   // console.log(111111111);
+				//  alert(certid)
+					okStyle.css({"display":"block"}).html("<img src='__PUBLIC__/images/ok.gif' />");
+					$("#dataForm :input[name='name']").eq(i).attr("disabled","disabled");
+					$("#dataForm :input[name='certid']").eq(i).attr("disabled","disabled");
+					$("#dataForm :input[name='lock']").eq(i).val(1); 
+					//layer.msg(data.msg);
+					//console.log(okStyle);
+					
+					//console.log($(this).closest('span'));
+					//console.log($(this).find("span"));
+					//$(this).attr('disabled','disabled');
+					
+				}
+			}
+			});
+			addcount++;
+		//checkcertid(obj);
+		}
+		else{
+			okStyle.css({"display":"block"}).html("");
+		}
+	});
+	if(addcount==0){
+			//layer.msg("没有添加任何选手");
+			//return ;
+	}
+	if(errorcount>0){
+			layer.msg("存在"+errorcount+"条错误信息，请修正或删除后再提交。");
+			clearTimeout(temptimer);
+			limittime = 6;
+			runtime();
+			return ;
+	}
+	else{
+		if(action=="add"){
+			//alert(action+"--")
+			layer.load(); 
+			location.reload();
+		}
+		else{
+			//alert(action)
+			layer.load();         
+			var index = parent.layer.getFrameIndex(window.top.name); //先得到当前iframe层的索引
+			parent.layer.close(index); //再执行关闭 
+			window.top.location.reload();
+		}
+		//关闭或刷新。
+	}
+}
+$(function(){
+});
+</script>
+
+<style type="text/css">
+    .panel{margin-bottom: 0px;width:100%;border:#CCCCCC solid 0px; float:left;}
+	.panel-body .panel input{ color:#000000; border:#CCCCCC solid 1px; background:#f4f4f4; }
+	.panel input:disabled{ color:#000000; background:#CCCCCC;}
+    .form-signin{margin-top: 20px;}
+    .err{font-size: 12px;color: red; position: relative;}
+    .control1{line-height: 36px;width: 36%; text-indent:10px; float:left;}
+    .control2{line-height: 36px;width: 56%; text-indent: 10px; float:right;}
+    .panel{position:relative;}
+    .tips{position:absolute;left:102%;top:10px;border:#000000 solid 0px;white-space:nowrap;font-size: 12px;color:red;}
+    .btn{background-color: #5cb85c;color:#fff; width:36%; font-size:1.4rem; text-align:center; padding:0px; height:40px; cursor:pointer;float:left;}
+    .t_title{font-size: 16px;padding-bottom: 10px;width:100%; line-height:150%;border:#CCCCCC solid 0px; margin:0px; height:40px;}
+	.t_title .xm{width: 36%; float:left;}
+    .t_title .sfz{width: 54%; float:right;}
+</style>
+</block>
+

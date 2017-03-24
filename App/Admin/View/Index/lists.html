@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<include file="Public/title" title="列表页参考模版" />
+</head>
+
+<body>
+<div class="mainWrap">
+	
+    <!--标题-->
+    <div class="mainWrapHeader">
+    	<h1 class="mainWrapTit">欢迎页</h1>
+    </div>
+    <!--标题-->
+    
+    <div class="mainWrapBd">
+    	
+        <!--标题-->
+        <div class="mainListTit"><h3><a href="javascript:;" class="listSearchTit" data-default="0">搜索/筛选借款[<span>展开</span>]</a></h3></div>
+        <!--如果默认展开，则在listSearchTit  定义  data-default=1-->
+        <!--标题-->
+        
+        <form style="display:none;" class="listSearchBox">
+        <table cellpadding="0" border="0" cellspacing="0" class="stdsearch">
+        	<tr>
+            	<th>会员号</th>
+                <td><input type="text" class="sys_text" /></td>
+            </tr>
+            <tr>
+            	<th>日期</th>
+                <td><input type="text" class="sys_text ico-calendar" /></td>
+            </tr>
+            <tr>
+            	<th>下拉</th>
+                <td><select><option>请选择</option><option>请选择</option></select></td>
+            </tr>
+            <tr>
+            	<th>会员号</th>
+                <td><textarea class="sys_text sys_textarea350"></textarea></td>
+            </tr>
+            <tr>
+            	<th></th>
+                <td><input type="submit" class="submit" value="搜 索" /> <input type="reset" value="重 置" class="reset" /></td>
+            </tr>
+        </table>
+        </form>
+        
+        <form>
+        <!--列表-->
+        <table cellpadding="0" cellspacing="0" border="0" class="stdtable stdtablelist">
+            <colgroup>
+                <col style="width:50px;" />
+                <col/>
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+            </colgroup>
+            <thead>
+                <tr>
+                    <th class="center"><input type="checkbox" class="checkall" /></th>
+                    <th>ID</th>
+                    <th>标题</th>
+                    <th>Platform(s)</th>
+                    <th>Engine version</th>
+                    <th>CSS grade</th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td align="center"><input type="checkbox" /></td>
+                    <td>Trident</td>
+                    <td>Internet Explorer 4.0</td>
+                    <td>Win 95+</td>
+                    <td class="center">4</td>
+                    <td class="center">X</td>
+                    <td class="center"><a href="" class="edit">Edit</a> &nbsp; <a href="" class="delete">Delete</a></td>
+                </tr>
+                <tr>
+                    <td align="center"><input type="checkbox" /></td>
+                    <td>Trident</td>
+                    <td>Internet Explorer 5.0</td>
+                    <td>Win 95+</td>
+                    <td class="center">5</td>
+                    <td class="center">C</td>
+                    <td class="center"><a href="" class="edit">Edit</a> &nbsp; <a href="" class="delete">Delete</a></td>
+                </tr>
+                <tr>
+                    <td align="center"><input type="checkbox" /></td>
+                    <td>Trident</td>
+                    <td>Internet  Explorer 5.5</td>
+                    <td>Win 95+</td>
+                    <td class="center">5.5</td>
+                    <td class="center">A</td>
+                    <td class="center"><a href="" class="edit">Edit</a> &nbsp; <a href="" class="delete">Delete</a></td>
+                </tr>
+                <tr>
+                    <td align="center"><input type="checkbox" /></td>
+                    <td>Trident</td>
+                    <td>Internet Explorer 6</td>
+                    <td>Win 98+</td>
+                    <td class="center">6</td>
+                    <td class="center">A</td>
+                    <td class="center"><a href="" class="edit">Edit</a> &nbsp; <a href="" class="delete">Delete</a></td>
+                </tr>
+                <tr>
+                    <td align="center"><input type="checkbox" /></td>
+                    <td>Trident</td>
+                    <td>Internet Explorer 7</td>
+                    <td>Win XP SP2+</td>
+                    <td class="center">7</td>
+                    <td class="center">A</td>
+                    <td class="center"><a href="" class="edit">修改</a> &nbsp; <a href="" class="delete">删除</a></td>
+                </tr>
+            </tbody>
+        </table>
+        <!--列表-->
+        
+        <!--工具-->
+        <div class="tableTools clearfix">
+            <div class="tableOptions fl">
+            	<input type="checkbox" class="checkall" /> &nbsp;&nbsp;&nbsp;
+                <select>
+                    <option value="">请选择...</option>
+                    <option value="">批量删除</option>
+                    <option value="">批量排序</option>
+                    <option value="">批量生效</option>
+                </select> &nbsp;
+                <input type="submit" class="btn" value="应用">
+            </div>
+            <div class="pages fr">
+                <a href="#">首页</a>
+                <a href="#">上一页</a>
+                <a href="#" class="cur">1</a>
+                <a href="#">2</a>
+                <a href="#">3</a>
+                ...
+                <a href="#">4</a>
+                <a href="#">5</a>
+                <a href="#">下一页</a>
+                <a href="#">尾页</a>
+            </div>
+        </div>
+        <!--工具-->
+        </form>
+        
+    </div>
+    
+</div>
+</body>
+</html>

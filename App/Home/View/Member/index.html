@@ -1,0 +1,73 @@
+<extend name="Layouts/app" />
+
+<block name="title">列表页</block>
+
+<block name="header-skin">
+</block>
+
+
+<block name="head">
+<div class="page-heading">
+    <h3>
+        用户基本信息
+    </h3>
+    <ul class="breadcrumb">
+        <li>
+            <a href="#">首页</a>
+        </li>
+        <li class="active"> 用户基本信息 </li>
+    </ul>
+</div>
+</block>
+
+<block name="wrapper">
+    <div class="wrapper">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel">
+                    <div class="panel-heading">
+                        用户基本信息
+                    </div>
+
+                    <div class="panel-body">
+                        <!-- tools -->
+                        <div class="panel">
+		                    <div class="panel-body">
+		                        <div class="media usr-info">
+		                            <a href="#" class="pull-left">
+		                                <img class="thumb" src="__PUBLIC__/images/photos/user2.png" alt=""/>
+		                            </a>
+		                            <div class="media-body">
+                                        <if condition="$res['type'] == '1'">
+                                            <h4 class="media-heading">{$res.team_name}</h4>
+                                        </if>
+                                        <if condition="$res['realname'] == '' && $res['type'] == '0'">
+                                            <a href="javascript:;" onclick="layer.open({type:2,content:'{:U(\'member/nameauth\')}',title:'用户实名认证',area:['80%','90%']})">
+                                                <h4 class="media-heading">点击完成实名认证</h4>
+                                            </a>
+                                        <else/>
+		                                  <h4 class="media-heading">{$res.realname}</h4>
+                                        </if>
+		                                <span>{$res.username}</span>
+		                                <p>{$res.mobile}</p>
+                                        <a href="javascript:;" onclick="layer.open({type:2,content:'{:U('edit',array('id'=>$res['id']))}',title:'修改资料',area:['80%','90%']})">
+                                        修改资料</a> |
+                                        <a href="javascript:;" onclick="layer.open({type:2,content:'{:U('resetpass',array('id'=>$res['id']))}',title:'重设密码',area:['80%','90%']})">
+                                        重设密码</a>
+		                            </div>
+		                        </div>
+		                    </div>
+		                </div>                    
+                    </div>
+                </div>
+
+            </div>        
+        </div>
+    </div>
+</block>
+
+<block name="bottom-script">
+<script>
+high_light_menu('{:U('Index/lists')}');  // 高亮菜单
+</script>
+</block>

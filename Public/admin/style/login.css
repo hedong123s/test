@@ -1,0 +1,77 @@
+@charset "utf-8";
+/* CSS Document */
+@import url('plugins/uniform.tp.css');
+
+/* 登录页面 */
+*{ margin:0; padding:0;}
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td { background: transparent; border: 0; margin: 0; padding: 0; vertical-align: baseline;}
+
+body { font-size: 12px; font-family:"微软雅黑", Tahoma, Geneva, sans-serif; color: #333; background:url(../images/bodybg.png) repeat center center;}
+input,select,button{ font-family:"微软雅黑", Tahoma, Geneva, sans-serif; outline:none;}
+a { text-decoration: none; color: #333; outline: none; }
+button { outline: none; }
+a img { border: 0; }
+h1,h2,h3,h4,h5, span.h3 { font-weight: normal; }
+h1 { font-size: 32px; }
+h2 { font-size: 28px; }
+h3 { font-size: 24px; }
+h4 { font-size: 18px; }
+h5 { font-size: 14px; }
+
+.fl{ float:left;}
+.fr{ float:right;}
+.clearfix:after {visibility: hidden;display: block;font-size: 0;content: " ";clear: both;height: 0;}
+* html .clearfix             { zoom: 1; } /* IE6 */
+*:first-child+html .clearfix { zoom: 1; } /* IE7 */
+
+.loginlogo{ width:230px; height:200px; background:url(../images/wechat.jpg) no-repeat center center;}
+
+.loginbox { width: 550px; padding: 10px; margin: 6% auto 0 auto; -moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; -moz-box-shadow: 0 0 2px rgba(0,0,0,0.3); -webkit-box-shadow: 0 0 2px rgba(0,0,0,0.3); box-shadow: 0 0 2px rgba(0,0,0,0.3); background-color: #fff;}
+.loginwrap{ width:510px; padding: 20px;	-moz-border-radius: 0 2px 2px 0; -webkit-border-radius:2px; border-radius:2px; background:#32415a url(../images/bodybg.png) repeat center center; _background:#32415a;}
+.logintit{ color:#fff; font-size:30px; border-bottom:1px solid #56647d; padding-bottom:5px; margin-bottom:15px; text-align:center;}
+.logintit b{ color:#fb9337; font-weight:normal; padding-right:3px;}
+
+.loginform{ width:480px; padding-left:20px; /*background:url(../images/loginformbg.png) no-repeat left center;*/ min-height:210px;}
+.loginmsg { background: #fffccc; color: #333; padding: 5px; text-align: center; font-size: 12px; -moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; line-height:180%; display:none;}
+
+.username{ background: #eee url(../images/icons/username.png) no-repeat 13px center; -moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; -moz-box-shadow: 0 1px 2px rgba(0,0,0,0.4); -webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.4); box-shadow: 0 1px 2px rgba(0,0,0,0.4); margin: 15px 0;}
+.usernameinner { margin-left: 45px; border-left: 1px solid #ddd; background: #fff; padding-right: 20px; -moz-border-radius: 2px; webkit-border-radius: 2px; border-radius: 2px; }
+.username input { padding: 15px 10px; border: 0; font-size: 14px; width: 415px; box-shadow: none; color: #666; -moz-border-radius: 0 2px 2px 0; -webkit-border-radius: 0 2px 2px 0; border-radius: 0 2px 2px 0;}
+
+.password {  background: #eee url(../images/icons/password.png) no-repeat 13px center; -moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; -moz-box-shadow: 0 1px 2px rgba(0,0,0,0.4); -webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.4); box-shadow: 0 1px 2px rgba(0,0,0,0.4); margin: 15px 0; overflow: hidden;
+}
+.passwordinner { margin-left: 45px; border-left: 1px solid #ddd; background: #fff; }
+.password input { padding: 15px 10px; border: 0; font-size: 14px; width:415px; box-shadow: none; color: #666;
+}
+
+.codemain{ margin:15px 0;}
+.code{ background: #eee url(../images/icons/code.png) no-repeat 15px center; -moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; -moz-box-shadow: 0 1px 2px rgba(0,0,0,0.4); -webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.4); box-shadow: 0 1px 2px rgba(0,0,0,0.4); width:185px;}
+.codeinner { margin-left: 45px; border-left: 1px solid #ddd; background: #fff; padding-right: 20px; -moz-border-radius: 2px; webkit-border-radius: 2px; border-radius: 2px; }
+.code input { padding: 15px 10px; border: 0; font-size: 14px; width: 250px; box-shadow: none; color: #666; -moz-border-radius: 0 2px 2px 0; -webkit-border-radius: 0 2px 2px 0; border-radius: 0 2px 2px 0;}
+.codeimg img{-moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; -moz-box-shadow: 0 1px 2px rgba(0,0,0,0.4); -webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.4); box-shadow: 0 1px 2px rgba(0,0,0,0.4);}
+.codeimg:hover img{ opacity:0.95;}
+
+/*短信验证码*/
+.smscode{ background: #eee url(../images/icons/code.png) no-repeat 15px center; -moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; -moz-box-shadow: 0 1px 2px rgba(0,0,0,0.4); -webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.4); box-shadow: 0 1px 2px rgba(0,0,0,0.4); position: relative;}
+.smscodeinner { margin-left: 45px; border-left: 1px solid #ddd; background: #fff; padding-right: 20px; -moz-border-radius: 2px; webkit-border-radius: 2px; border-radius: 2px; }
+.smscode input { padding: 15px 10px; border: 0; font-size: 14px; width: 155px; box-shadow: none; color: #666; -moz-border-radius: 0 2px 2px 0; -webkit-border-radius: 0 2px 2px 0; border-radius: 0 2px 2px 0;}
+.getsmscode{ background:#eee; position: absolute; padding: 6px 16px; top: 10px; right:12px; color:#666; border-radius:3px; border:1px solid #ddd;}
+.getsmscode:hover{ background:#fc7c16; border-color:#f60; color:#fff;}
+.getsmscodedisabled,.getsmscodedisabled:hover{ color:#888; background:#eee; border-color:#ddd;}
+
+.keep{ margin-top: 15px; font-weight: bold; color: #ccc; font-size: 12px; vertical-align:middle;}
+
+.loginbtn{ text-align:center; margin-top:15px;}
+.loginbtn input{ background: #f0801d url(../images/btngrad.png) repeat-x top left; border: 0; padding: 12px 0; text-align: center; font-size: 14px; font-weight: normal; width: 200px; text-transform: uppercase; -moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; -moz-box-shadow: 0 1px 2px rgba(0,0,0,0.4); -webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.4); box-shadow: 0 1px 2px rgba(0,0,0,0.4); cursor:pointer; color:#fff; margin:0 10px;
+}
+.loginbtn input:hover { background-color: #f0721e; }
+
+.copyright{ text-align:center; margin-top:20px; color:#888; text-shadow:1px 1px 0 #fff;}

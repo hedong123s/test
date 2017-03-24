@@ -1,0 +1,206 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<include file="Public/title" />
+<style>
+.match-title{ padding-bottom: 15px; font-size: 18px; }
+</style>
+</head>
+
+<body>
+<div class="mainWrap">
+    <!--标题-->
+    <div class="mainWrapHeader">
+    	<h1 class="mainWrapTit">
+            {$seotitle} 
+            <!--<a href="{:U('add', ['match_id' => $match['id']])}" class="btn btn_edit"><span>添加</span></a>-->
+            <a href="javascript:;" class="btn btn_edit" id="importBtn"><span>导入</span></a>
+            <!-- <a href="__PUBLIC__/admin/template/match_event_template.xlsx" target="_blank" class="btn btn_folder"><span>下载导入模版</span></a>
+            <a href="{:U('entered/audit',array('id'=> $match['id']))}"  class="btn btn_folder"><span>审核</span></a> -->
+        </h1>
+    </div>
+    <!--标题-->
+    
+    <div class="mainWrapBd">
+
+        <!-- 赛程信息 -->
+        <h3 class="match-title"><b>赛程：</b>{$match['title']}</h3>
+        <!-- 赛程信息 -->
+
+        <!-- 搜索 start -->
+        <!-- <form action="{:U('__ACTION__')}" method="get">
+            <input type="hidden" name="match_id" value="{$match['id']}" />
+            <div class="mainWrapSerach">
+                组别代码：<input type="text" name="event_number" class="sys_text sys_text120" value="{$search['event_number']|default=''}" />&nbsp;&nbsp;
+                组别名称：<input type="text" name="event_title" class="sys_text sys_text120" value="{$search['event_title']|default=''}" />&nbsp;&nbsp;
+                <button type="submit" name="action" value="search" class="submit">搜 索</button>&nbsp;&nbsp;
+            </div>
+        </form> -->
+        <!-- 搜索 end -->
+
+        <form action="{:U('batchDo')}" method="post" name="doForm" onsubmit="return batchConfirm(this);">
+        <!--列表-->
+        <table cellpadding="0" cellspacing="0" border="0" class="stdtable stdtablelist">
+            <colgroup>
+                <col style="width:50px;" />
+                <col/>
+                <col />
+                <col />
+                <col/>
+                <col/>
+                <col />
+                <col />
+                <col/>
+            </colgroup>
+            <thead>
+                <tr>
+                    <th class="center">ID</th>
+                    <th>合并序号</th>
+                    <th>类型</th>
+                    <th>时间</th>
+                    <th>组别代码</th>
+                    <th>比赛组别</th>
+                    <th>分组</th>
+                    <th>背号</th>
+                    <th>参赛对数</th>
+                    <th>录取对数</th>
+                    <th>赛次</th>
+                    <th>舞种</th>
+                    <th>创建时间</th>
+                    <th>修改时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+            	<volist name="pages['lists']" id="fo">
+                <tr>
+                    
+                    <td align="center">{$fo['id']}</td>
+                    <td>{$fo['merge_num']}</td>
+                    <td>{$fo['type']}</td>
+                    <td>{$fo['match_time']}</td>
+                    <td>{$fo['group_code']}元</td>
+                    <td>{$fo['group_name']}</td>
+                    <td>{$fo['group']}</td>
+                    <td>{$fo['back_num']}</td>
+                    <td><?php echo (int)$fo['match_num'];?></td>
+                    <td>{$fo['pass_num']}</td>
+                    <td>{$fo['race_time']}</td>
+                    <td>{$fo['dances']}</td>
+                    <td>{$fo['add_time']|format_date}</td>
+                    <td>
+                        <if condition = "$fo['update_time'] neq 0">
+                            {$fo['update_time']|format_date}
+                        <else/>
+                            -
+                        </if>
+                    </td>
+
+                    <td>
+                        <a href="{:U('edit',array('id'=> $fo['id']))}">修改</a> &nbsp;&nbsp; 
+                        <a href="{:U('destroy',array('id'=> $fo['id']))}" onclick="return confirm('确认删除吗？');">删除</a> &nbsp;&nbsp; 
+                    </td>
+                </tr>
+                </volist>
+                <if condition="$pages['total'] eq 0">
+                <tr>
+                    <td align="center" class="data-nothing" colspan="15">暂无相关信息</td>
+                </tr>
+                </if>
+            </tbody>
+        </table>
+        <!--列表-->
+        
+        <!--工具-->
+        <div class="tableTools clearfix">
+            <div class="tableOptions fl">
+            </div>
+            <div class="fr">
+                {$pages['show']}
+            </div>
+        </div>
+        <!--工具-->
+        </form>
+        
+    </div>
+    
+</div>
+</body>
+</html>
+<script src="__PUBLIC__/admin/plugin/artTemplate/template-native.js"></script>
+<script src="__PUBLIC__/admin/plugin/uploadify/js/plupload.full.min.js"></script>
+<script>
+var importFile = {};
+
+// 创建文件上传对象
+importFile.uploader = new plupload.Uploader({
+    runtimes : 'html5,flash,silverlight,html4',
+    browse_button : 'importBtn', // you can pass an id...
+    container: $('#fileContainer')[0], // ... or DOM Element itself
+    url : '{:U('import', ['match_id' => $match['id']])}',
+    flash_swf_url : '__PUBLIC__/admin/plugin/uploadify/js/Moxie.swf',
+    silverlight_xap_url : '__PUBLIC__/admin/plugin/uploadify/js/Moxie.xap',
+    multi_selection:false,
+    
+    filters : {
+        max_file_size : plupload.formatSize(20971520),
+        mime_types: [
+            {extensions : "*"}
+        ]
+    },
+
+    init: {
+        PostInit: function() {
+        },
+
+        FilesAdded: function(up, files) {
+            // 弹出文件上传提示
+            importFile.fileprogress_layer = layer.msg('玩命处理中...', {
+                time: 0,
+                icon: 16,
+                shade: [0.3, '#000']
+            });
+
+            importFile.uploader.start();
+        },
+
+        UploadProgress: function(up, file) {
+            
+        },
+
+        FileUploaded: function(uploader, file, responseObject){
+            layer.close(importFile.fileprogress_layer);
+
+            var res = eval('(' + responseObject.response + ')');
+
+            if (res.status) {
+                layer.alert('导入完成，成功：' + res.data.success + '，失败：' + res.data.error, {icon: 6}, function(index){
+                    window.location.reload();
+                    layer.close(index);
+                });
+            } else {
+                layer.msg(res.msg);
+                return false;
+            }            
+        },
+
+        Error: function(up, err) {
+            switch (err.code) {
+                case -600:
+                    msg = '文件大小错误';
+                    break;
+                case -601:
+                    msg = '文件格式错误';
+                    break;
+                default:
+                    msg = err.message;
+            }
+            alert(msg);
+        }
+    }
+});
+
+// 初始化文件上传对象
+importFile.uploader.init();
+</script>

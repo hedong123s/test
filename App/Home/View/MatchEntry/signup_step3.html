@@ -1,0 +1,300 @@
+<extend name="Layouts/app" />
+
+<block name="title">{$seotitle}</block>
+
+<block name="header-skin">
+<link href="__PUBLIC__/plugin/select2/css/select2.min.css" rel="stylesheet" />
+<style>
+.popover{ max-width: 100%; }
+</style>
+</block>
+
+
+<block name="head">
+<div class="page-heading">
+    <h3>
+        {$seotitle}
+    </h3>
+    <ul class="breadcrumb">
+        <li>
+            <a href="__ROOT__/">首页</a>
+        </li>
+        <li>
+            <a href="{:U('Match/index')}">赛事管理</a>
+        </li>
+        <li>
+            <a href="{:U('Match/attend')}">我的赛事</a>
+        </li>
+        <li class="active">{$seotitle}</li>
+    </ul>
+</div>
+</block>
+
+<block name="wrapper">
+    <div class="wrapper">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel">
+                    <div class="panel-heading">
+                        {$seotitle} - 报名组别
+                    </div>
+
+                    <div class="panel-body">
+                        <!--主体-->
+                        <form class="form-horizontal" method="post" action="{:U('signup_step3_check')}" id="form-submit">
+                            <input type="hidden" name="match_id" value="{$_match['id']}">
+                            <input type="hidden" name="sign" value="{$sign}">
+                            <!--选手信息-->
+                            <if condition="in_array($event_entry_info['person_type'], [1, 2, 3])">
+                            {/*单人、双人、6人*/}
+                            <div class="form-group">
+                                <label class="control-label col-md-2">选手信息</label>
+                                <div class="col-md-10">
+                                    <!--选手信息-->
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-striped table-hover table-condensed">
+                                            <colgroup>
+                                                <col />
+                                                <col />
+                                                <col />
+                                                <col />
+                                            </colgroup>
+                                            <thead>
+                                                <tr>
+                                                    <th>选手名称</th>
+                                                    <th>性别</th>
+                                                    <th>身份证</th>
+                                                    <th>年龄</th>                                                    
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <volist name="players" id="vo">
+                                                <tr>
+                                                    <td>{$vo['name']}</td>
+                                                    <td>{$vo['sex']|getSexFromType}</td>
+                                                    <td>{$vo['idcard']|hide_idcard}</td>
+                                                    <td>{$vo['age']} 岁</td>                                                    
+                                                </tr>
+                                                </volist>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    
+                                    <!--选手信息-->
+                                </div>
+                            </div>                        
+                            <elseif condition="$event_entry_info['person_type'] eq 4" />
+                            {/*集体舞*/}
+                            <div class="form-group">
+                                <label class="control-label col-md-2">参赛团名称</label>
+                                <div class="col-md-10">
+                                    <p class="form-control-static">{$player_group_name}</p>
+                                </div>
+                            </div>
+                            </if>
+                            <!--选手信息-->
+                            
+                            <if condition="count($events) gt 0">
+                            <div class="form-group">
+                                <label class="control-label col-md-2">&nbsp;</label>
+                                <div class="col-md-10">
+                                    <p class="form-control-static"><i class="fa fa-info-circle"></i> 组别代码 - 组别</p>
+                                </div>
+                            </div>
+                            </if>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">报名组别</label>
+                                <div class="col-md-10">
+                                    <volist name="events" id="vo">
+                                    <div class="checkbox">
+                                        <label class="event-info"
+                                            data-number="{$vo['event_number']}"
+                                            data-title="{$vo['event_title']}"
+                                            data-dances="{$vo['dances']}"
+                                            data-fee="{$vo['fee']}"
+                                            data-ipate="{$vo['ipate']}"
+                                            data-disabled-event-numbers="{$vo['disabled_event_numbers']}">
+                                            <input type="checkbox" name="event_id[]" value="{$vo['id']}"> [{$vo['event_number']}] {$vo['event_title']} 
+                                            <i class="fa fa-info-circle"></i>
+                                        </label>
+                                    </div>
+                                    </volist>
+                                    <if condition="count($events) eq 0">
+                                    <p class="form-control-static text-danger"><span class="fa fa-exclamation-triangle"></span> 没有符合当前条件报名的组别</p>
+                                    </if>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <button type="submit" class="btn btn-primary" <if condition="count($events) eq 0">disabled="disabled"</if>>报 名</button>&nbsp;&nbsp;
+                                    <button type="button" class="btn btn-default" onclick="history.go(-1);">返 回</button>
+                                </div>
+                            </div>
+
+                        </form>
+                        <!--主体-->
+                    </div>
+                </div>
+
+            </div>        
+        </div>
+    </div>
+</block>
+
+<block name="bottom-script">
+<script id="event-info-template" type="text/html">
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-bordered table-striped table-hover table-condensed">
+            <colgroup>
+                <col style="width: 100px;" />
+                <col />
+                <col style="width: 100px;" />
+                <col style="width: 120px;" />
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>组别代码</th>
+                    <th>比赛组别</th>
+                    <th>竞赛舞种</th>
+                    <th>服务费</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><%=number%></td>
+                    <td><%=title%></td>
+                    <td><%=dances%></td>
+                    <td><%=fee%></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</script>
+<script src="__PUBLIC__/plugin/select2/js/select2.full.min.js"></script>
+<script src="__PUBLIC__/plugin/select2/js/i18n/zh-CN.js"></script>
+<script src="__PUBLIC__/plugin/artTemplate/template-native.js"></script>
+<script>
+// select2插件
+$('.player-select').select2({
+    language: 'zh-CN'
+});
+
+// 组别信息
+$('.event-info').each(function(){
+    var _this = $(this);
+
+    var html = template('event-info-template', {
+        number: _this.attr('data-number'),
+        title: _this.attr('data-title'),
+        dances: _this.attr('data-dances'),
+        fee: _this.attr('data-fee')
+    });
+
+    _this.popover({
+        title: '组别信息',
+        content: html,
+        trigger: 'hover',
+        html: true,
+        placement: 'right'
+    });
+
+    // 选中事件
+    _this.find('input[name="event_id[]"]:enabled').on('change', function(){
+        event_info_status();
+    })
+});
+
+function event_info_status(){
+    // 需要禁报的组别编号
+    var disableds = '';
+    // 跨板块可报的板块
+    var abled_ipates = '';
+
+    $('.event-info input[name="event_id[]"]:checked').each(function(){
+        var _this                   = $(this);
+        var _disabled_event_numbers = _this.closest('.event-info').attr('data-disabled-event-numbers');
+        var _abled_ipate            = _this.closest('.event-info').attr('data-ipate');
+
+        if (_disabled_event_numbers != '') {
+            if (disableds == '') {
+                disableds = _disabled_event_numbers;
+            } else {
+                disableds += ',' + _disabled_event_numbers;
+            }
+        }
+
+        if (_abled_ipate != '' && _abled_ipate != 'TAS') {
+            if (abled_ipates == '') {
+                abled_ipates = _abled_ipate;
+            } else {
+                abled_ipates += ',' + _abled_ipate;
+            }
+        }
+    })
+
+
+
+    // 解除所有禁用
+    $('.event-info input[name="event_id[]"]').prop('disabled', false);
+
+    if (disableds != '') {
+        // 禁报组别转换为数组
+        aDisableds = disableds.split(',');
+
+        for (var i = 0; i < aDisableds.length; i ++) {
+            $('.event-info[data-number="' + (aDisableds[i]) + '"]').find('input[name="event_id[]"]').prop('checked', false).prop('disabled', true);
+        }
+    }
+
+    // 不在可允许报名的板块，则禁止
+    if (abled_ipates != '') {
+        a_abled_ipates = abled_ipates.split(',');
+
+        for (var i = 0; i < a_abled_ipates.length; i ++) {
+            $('.event-info[data-ipate!="' + (a_abled_ipates[i]) + '"][data-ipate!="TAS"]').find('input[name="event_id[]"]').prop('checked', false).prop('disabled', true);
+        }
+    }
+}
+
+// 表单提交
+$('#form-submit').submit(function(){
+    var form = $(this);
+    layer.load();
+
+    $.post(form.attr('action'), form.serialize(), function(d){
+        layer.closeAll('loading');
+        
+        if (d.status) {
+            // layer.alert('报名成功', {
+            //     icon: 6
+            // }, function(){
+            //     window.location.href = d.url;   
+            // }); 
+            layer.open({
+                title: '信息',
+                content: '报名成功',
+                icon: 6,
+                btn: ['确认', '已报名管理'],
+                yes: function(){
+                    window.location.href = '{:U('signup', ['match_id' => $_match['id']])}';
+                },
+                btn2: function(){
+                    window.location.href = '{:U('hasSign', ['match_id' => $_match['id']])}';
+                }
+            });                    
+        } else {
+            layer.msg(d.msg);
+            return false;
+        }
+    }, 'json');
+
+    return false;
+})
+
+high_light_menu('MatchEntry:signup');  // 高亮菜单
+</script>
+</block>

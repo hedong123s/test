@@ -1,0 +1,57 @@
+<extend name="Layouts/app" />
+
+<block name="title">标题</block>
+
+<block name="header-skin">
+<!--icheck-->
+<link href="__PUBLIC__/js/iCheck/skins/minimal/minimal.css" rel="stylesheet">
+<link href="__PUBLIC__/js/iCheck/skins/square/square.css" rel="stylesheet">
+<link href="__PUBLIC__/js/iCheck/skins/square/red.css" rel="stylesheet">
+<link href="__PUBLIC__/js/iCheck/skins/square/blue.css" rel="stylesheet">
+
+<!--dashboard calendar-->
+<link href="__PUBLIC__/css/clndr.css" rel="stylesheet">
+
+<!--Morris Chart CSS -->
+<link rel="stylesheet" href="__PUBLIC__/js/morris-chart/morris.css">
+</block>
+
+
+<block name="head">
+<div class="page-heading">
+    <h3>
+        {$seotitle}
+    </h3>
+    <ul class="breadcrumb">
+        <li>
+            <a href="__ROOT__/">首页</a>
+        </li>
+        <li class="active">{$seotitle}</li>
+    </ul>
+</div>
+</block>
+
+<block name="wrapper">
+    <div class="wrapper">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel">
+                    <div class="panel-heading">
+                        {$seotitle}
+                    </div>
+
+                    <div class="panel-body">
+                        欢迎访问，{$user['username']}
+                    </div>
+                </div>
+
+            </div>        
+        </div>
+    </div>
+</block>
+
+<block name="bottom-script">
+<script>
+high_light_menu('Index:index');  // 高亮菜单
+</script>
+</block>

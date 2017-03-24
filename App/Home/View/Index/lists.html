@@ -1,0 +1,102 @@
+<extend name="Layouts/app" />
+
+<block name="title">列表页</block>
+
+<block name="header-skin">
+</block>
+
+
+<block name="head">
+<div class="page-heading">
+    <h3>
+        列表页
+    </h3>
+    <ul class="breadcrumb">
+        <li>
+            <a href="#">首页</a>
+        </li>
+        <li class="active"> 列表页 </li>
+    </ul>
+</div>
+</block>
+
+<block name="wrapper">
+    <div class="wrapper">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel">
+                    <div class="panel-heading">
+                        列表页
+                    </div>
+
+                    <div class="panel-body">
+                        <!-- tools -->
+                        <div class="clearfix mb-12">
+                            <div class="pull-left">
+                                <a href="{{ route('admin.links.create') }}" class="btn btn-success"><i class="fa fa-plus"></i> 新增</a>
+                            </div>
+                        </div>
+                        <p></p>
+                        <!-- tools -->
+
+                        <!-- 表格 -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table class="table table-bordered table-striped table-hover table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th width="60">ID</th>
+                                            <th width="220">名称</th>
+                                            <th width="220">所属分类</th>
+                                            <th width="220">链接</th>
+                                            <th>描述</th>
+                                            <th width="75">排序</th>
+                                            <th width="100">生效状态</th>
+                                            <th width="220">创建时间</th>
+                                            <th width="220">更新时间</th>
+                                            <th width="120">操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1111</td>
+                                            <td>1111</td>
+                                            <td>1111</td>
+                                            <td>1111</td>
+                                            <td>1111</td>
+                                            <td>1111</td>
+                                            <td>1111</td>
+                                            <td>1111</td>
+                                            <td>1111</td>
+                                            <td>1111</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>                    
+                        <!-- 表格 -->
+
+                        <!--分页-->
+                        <div class="clearfix list-pagination">
+                            <div class="pull-right">
+                                {!! $pages->appends($page_params)->links() !!}
+                            </div>
+                            <div class="pull-right list-pagination-record">
+                                当前：{{ $pages->currentPage() }}/{{ $pages->lastPage() }}页; 总记录：{{ $pages->total() }}
+                            </div>
+                        </div>
+                        <!--分页-->
+                        
+                    </div>
+                </div>
+
+            </div>        
+        </div>
+    </div>
+</block>
+
+<block name="bottom-script">
+<script>
+high_light_menu('{:U('Index/lists')}');  // 高亮菜单
+</script>
+</block>

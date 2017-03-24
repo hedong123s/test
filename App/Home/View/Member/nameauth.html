@@ -1,0 +1,66 @@
+<extend name="Layouts/applayer" />
+
+<block name="title">列表页</block>
+
+<block name="header-skin">
+</block>
+
+
+
+<block name="wrapper">
+    <div class="wrapper" style="height:100%">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel">
+                    <div class="panel-heading">
+                        用户实名认证
+                    </div>
+					
+                    <div class="panel-body">
+                    	<form class="form-signin" action="{:U('doauth',array('act'=>'self'))}" id="dataForm" method="post">
+                        <!-- tools -->
+                        <div class="panel">
+		                    <input type="text" class="form-control" name="name" placeholder="请输入姓名" autofocus>
+				            <input type="text" class="form-control" name="certid" placeholder="请输入身份证号码">
+				            <button class="btn btn-lg btn-login btn-block" type="submit">确认</button> 
+                            <if condition="I('act') == 'noreal'"> 
+                            <p style="color:red">*请完成您本人的身份认证，然后才能添加选手</p>
+                            </if>
+		                </div> 
+		                </form>                   
+                    </div>
+                	
+                </div>
+            </div>        
+        </div>
+    </div>
+</block>
+
+<block name="bottom-script">
+<script>
+// 表单提交
+$('#dataForm').submit(function(){
+    var form = $(this);
+    layer.load();
+    $.post(form.attr('action'), form.serialize(), function(d){
+        layer.closeAll('loading');
+        
+        if (d.status) {
+            //当你在iframe页面关闭自身时          
+            var index = parent.layer.getFrameIndex(window.top.name); //先得到当前iframe层的索引
+            parent.layer.close(index); //再执行关闭 
+            window.top.location.reload();
+                       
+        } else {
+            layer.msg(d.msg);
+            return false;
+        }
+    }, 'json');
+
+    return false;
+})
+
+high_light_menu('{:U('Index/lists')}');  // 高亮菜单
+
+</script>
+</block>

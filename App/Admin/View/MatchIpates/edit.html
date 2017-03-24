@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<include file="Public/title" />
+</head>
+
+<body>
+<div class="mainWrap">
+	
+    <!--标题-->
+    <div class="mainWrapHeader">
+    	<h1 class="mainWrapTit">{$seotitle}</h1>
+        <!--切换需要，写对应ID，及class-->
+    </div>
+    <!--标题-->
+    
+    <form action="{:U('update')}" method="post" class="dataForm" id="dataForm">
+    <input type="hidden" name="id" value="{$info['id']}" />
+    <div class="mainWrapBd">
+    	<div class="tab-con" id="tab-works">
+            <table cellpadding="0" border="0" cellspacing="0" class="stdedit">
+                <tr>
+                    <th>赛事名称</th>
+                    <td><b>{$match['title']}</b></td>
+                </tr>
+                <tr>
+                    <th>二级版块名称</th>
+                    <td><input type="text" name="name" id="name" class="sys_text sys_text350" value="{$info['name']}" /></td>
+                </tr>
+                <tr>
+                    <th>所属一级版块</th>
+                    <td>
+                        <foreach name="first_ipates" item="vo">
+                        <label><input type="checkbox" name="pid[]" value="{$vo['id']}" <if condition="in_array($vo['id'], $pids)">checked="checked"</if> /> {$vo['name']}</label>&nbsp;&nbsp;
+                        </foreach>
+                    </td>                    
+                </tr>
+            </table>
+        </div>        
+        
+        <div class="stdeditSubmit"><input type="submit" class="submit" value="提 交" /> <input type="button" value="返回上一页" class="reset" onclick="history.go(-1);" /></div>
+    </div>
+    </form>
+    
+</div>
+</body>
+</html>
+<script>
+$('#dataForm').submit(function(){
+    var form = $(this);
+    layer.load();
+
+    $.post(form.attr('action'), form.serialize(), function(d){
+        layer.closeAll('loading');
+        
+        if (d.status) {
+            window.location.href = d.url;            
+        } else {
+            layer.msg(d.msg);
+            return false;
+        }
+    }, 'json');
+
+    return false;
+})
+</script>

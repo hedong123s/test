@@ -1,0 +1,149 @@
+<extend name="Layouts/app" />
+
+<block name="title">{$seotitle}</block>
+
+<block name="header-skin">
+</block>
+
+
+<block name="head">
+<div class="page-heading">
+    <h3>
+        {$seotitle}
+    </h3>
+    <ul class="breadcrumb">
+        <li>
+            <a href="__ROOT__/">首页</a>
+        </li>
+        <li>
+            <a href="{:U('Match/index')}">赛事管理</a>
+        </li>
+        <li>
+            <a href="{:U('Match/attend')}">我的赛事</a>
+        </li>
+        <li class="active">{$seotitle}</li>
+    </ul>
+</div>
+</block>
+
+<block name="wrapper">
+    <div class="wrapper">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel">
+                    <div class="panel-heading">
+                        {$seotitle} - 参赛板块
+                    </div>
+
+                    <div class="panel-body">
+                        <!--主体-->
+                        <form class="form-horizontal" method="post" action="{:U('signup_check')}" id="form-submit">
+                            <input type="hidden" name="match_id" value="{$_match['id']}">
+                            <input type="hidden" name="ipate" id="ipate" value="">
+                            <input type="hidden" name="person" id="person" value="">
+                            <div class="form-group">
+                                <label class="control-label col-md-2">板块</label>
+                                <div class="col-md-10">
+                                    <div class="btn-group btn-group-lg" id="ipate-select">
+                                        <a class="btn btn-default" data-ipate="PROC" href="{:U('signup_step2', ['match_id' => $_match['id'], 'person_type' => 2, 'ipate' => 'PROC'])}">职业</a>
+                                        <a class="btn btn-default" data-ipate="SPEC" href="{:U('signup_step2', ['match_id' => $_match['id'], 'person_type' => 2, 'ipate' => 'SPEC'])}">专业</a>
+                                        <a class="btn btn-default" data-ipate="AMAT" href="javascript:;">业余</a>
+                                        <a class="btn btn-default" data-ipate="O_SIX" href="{:U('signup_step2', ['match_id' => $_match['id'], 'person_type' => 3, 'ipate' => 'O_SIX'])}">6人舞</a>
+                                        <a class="btn btn-default" data-ipate="O_GROUP" href="{:U('signup_step2', ['match_id' => $_match['id'], 'person_type' => 4, 'ipate' => 'O_GROUP'])}">集体舞</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group" id="ipate-person-box" style="display:none;">
+                                <label class="control-label col-md-2">选手人数</label>
+                                <div class="col-md-10">
+                                    <div class="btn-group btn-group-lg" id="ipate-person">
+                                        <a class="btn btn-default" data-person="1" href="{:U('signup_step2', ['match_id' => $_match['id'], 'person_type' => 1, 'ipate' => 'AMAT'])}">单人</a>
+                                        <a class="btn btn-default" data-person="2" href="{:U('signup_step2', ['match_id' => $_match['id'], 'person_type' => 2, 'ipate' => 'AMAT'])}">双人</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <if condition="! $is_signup">
+                            <div class="form-group">
+                                <label class="control-label col-md-2"></label>
+                                <div class="col-md-10">
+                                    <p class="form-control-static text-danger"><span class="fa fa-exclamation-triangle"></span> 当前状态不可报名</p>
+                                </div>
+                            </div>
+                            </if>
+
+                            <div class="form-group" style="display:none;">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <button type="submit" class="btn btn-primary" <if condition="! $is_signup">disabled="disabled"</if>>下一步</button>&nbsp;&nbsp;
+                                </div>
+                            </div>
+                        </form>
+                        <!--主体-->
+                    </div>
+                </div>
+
+            </div>        
+        </div>
+    </div>
+</block>
+
+<block name="bottom-script">
+<script>
+var is_signup = '{$is_signup}';
+// 板块选择
+$(document).on('click', '#ipate-select>a.btn', function(){
+    var _this = $(this);
+    var ipate = _this.attr('data-ipate');
+
+    // 判断是否可报名
+    if (! is_signup) {
+        layer.msg('当前状态不可报名');
+        return false;
+    }
+
+
+    if (ipate == 'AMAT') {
+        $('#ipate-person-box').show();
+    } else {
+        $('#ipate-person-box').hide();
+    }
+
+    $('#ipate').val(ipate);
+
+    _this.addClass('btn-primary').removeClass('btn-default').siblings('a').removeClass('btn-primary').addClass('btn-default');
+})
+
+// 选手人数
+$(document).on('click', '#ipate-person>a.btn', function(){
+    var _this = $(this);
+    var ipate = _this.attr('data-person');
+
+    $('#person').val(ipate);
+
+    _this.addClass('btn-primary').removeClass('btn-default').siblings('a').removeClass('btn-primary').addClass('btn-default');
+})
+
+// 表单提交
+$('#form-submit').submit(function(){
+    var form = $(this);
+    layer.load();
+
+    console.log(form.serialize());
+
+    $.post(form.attr('action'), form.serialize(), function(d){
+        layer.closeAll('loading');
+        
+        if (d.status) {
+            window.location.href = d.url;            
+        } else {
+            layer.msg(d.msg);
+            return false;
+        }
+    }, 'json');
+
+    return false;
+})
+
+high_light_menu('MatchEntry:signup');  // 高亮菜单
+</script>
+</block>

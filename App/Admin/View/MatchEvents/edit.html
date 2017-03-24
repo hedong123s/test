@@ -1,0 +1,217 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<include file="Public/title" />
+</head>
+
+<body>
+<div class="mainWrap">
+	
+    <!--标题-->
+    <div class="mainWrapHeader">
+    	<h1 class="mainWrapTit">{$seotitle}</h1>
+        <!--切换需要，写对应ID，及class-->
+    </div>
+    <!--标题-->
+    
+    <form action="{:U('update')}" method="post" class="dataForm" id="dataForm">
+    <input type="hidden" name="id" value="{$info['id']}" />
+    <div class="mainWrapBd">
+    	<div class="tab-con" id="tab-works">
+            <table cellpadding="0" border="0" cellspacing="0" class="stdedit">
+                <tr>
+                    <th>赛事名称</th>
+                    <td><b>{$match['title']}</b></td>
+                </tr>
+                <tr>
+                    <th>组别名称</th>
+                    <td><input type="text" name="title" id="title" class="sys_text sys_text350" value="{$info['event_title']}" /></td>
+                </tr>
+                <tr>
+                    <th>组别代码</th>
+                    <td><input type="text" name="event_number" class="sys_text sys_text80" value="{$info['event_number']}" /></td>
+                </tr>
+                <tr>
+                    <th>舞种</th>
+                    <td>
+                        <foreach name="defineDances" item="vo">
+                        <label>
+                            <input type="checkbox" name="dances[]" value="{$key}" <if condition="in_array($key, $info['aDances'])">checked="checked"</if> /> [{$key}] {$vo} &nbsp;
+                        </label>
+                        </foreach>
+                    </td>
+                </tr>
+                <tr>
+                    <th>服务费</th>
+                    <td><input type="text" name="fee" class="sys_text sys_text80" value="{$info['fee']}" /> 元</td>
+                </tr>
+                <tr>
+                    <th>年龄限制</th>
+                    <td>
+                        <span id="age-type-date" style="display:none;">
+                            <input type="text" name="age_date" class="sys_text sys_text50" onclick="WdatePicker({dateFmt:'yyyy'})" value="{$info['age_date']|strtotime|format_date='Y'}" /> 年&nbsp;&nbsp;
+                        </span>
+                        <span id="age-type-date2" style="display:none;">
+                            - 
+                            <input type="text" name="age_date2" class="sys_text sys_text50" onclick="WdatePicker({dateFmt:'yyyy'})" value="{$info['age_date2']|strtotime|format_date='Y'}" /> 年&nbsp;&nbsp;
+                        </span>
+                        <select name="age_type" id="age-type">
+                            <option value="0"  <if condition="$info['age_type'] eq 0">selected="selected"</if>>不限</option>
+                            <option value="1"  <if condition="$info['age_type'] eq 1">selected="selected"</if>>之前</option>
+                            <option value="2"  <if condition="$info['age_type'] eq 2">selected="selected"</if>>之后</option>
+                            <option value="3"  <if condition="$info['age_type'] eq 3">selected="selected"</if>>区间</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>归属板块</th>
+                    <td>
+                        <label><input type="radio" name="ipate" value="PROC" <if condition="$info['ipate'] eq 'PROC'">checked="checked"</if> /> 职业组</label> &nbsp;
+                        <label><input type="radio" name="ipate" value="SPEC" <if condition="$info['ipate'] eq 'SPEC'">checked="checked"</if> /> 专业组</label> &nbsp;
+                        <label><input type="radio" name="ipate" value="AMAT" <if condition="strpos($info['ipate'], 'AMAT:') heq 0">checked="checked"</if> /> 业余组</label> &nbsp;
+                        <label><input type="radio" name="ipate" value="TAS" <if condition="$info['ipate'] eq 'TAS'">checked="checked"</if> /> 师生组</label> &nbsp;
+                    </td>
+                </tr>
+                <tr id="ipate-amat-box" style="display: none;">
+                    <th>业余组子项</th>
+                    <td>
+                        <label><input type="radio" name="ipate_amat" value="ELITE" <if condition="strpos($info['ipate'], ':ELITE') gt 0">checked="checked"</if> /> 重要组</label> &nbsp;
+                        <label><input type="radio" name="ipate_amat" value="ORDIN" <if condition="strpos($info['ipate'], ':ORDIN') gt 0">checked="checked"</if> /> 普通组</label> &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <th>禁报组别代码</th>
+                    <td>
+                        <input type="text" name="disabled_event_numbers" id="disabled_event_numbers" class="sys_text sys_text350" value="{$info['disabled_event_numbers']}" />
+                        <span class="cnote">多个请用英文逗号隔开，如：1,2,3,4</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>参赛人员类型</th>
+                    <td>
+                        <select name="person_type" id="person-type">
+                            <option value="1" <if condition="$info['person_type'] eq 1">selected="selected"</if>>单人</option>
+                            <option value="2" <if condition="$info['person_type'] eq 2">selected="selected"</if>>双人</option>
+                            <option value="3" <if condition="$info['person_type'] eq 3">selected="selected"</if>>6人群舞</option>
+                            <option value="4" <if condition="$info['person_type'] eq 4">selected="selected"</if>>集体舞</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr id="person-type-sex" style="display:none;">
+                    <th>参赛人员性别要求</th>
+                    <td id="person-type-sex-render"></td>
+                </tr>
+            </table>            
+        </div>        
+        
+        <div class="stdeditSubmit"><input type="submit" class="submit" value="提 交" /> <input type="button" value="返回上一页" class="reset" onclick="history.go(-1);" /></div>
+    </div>
+    </form>
+</div>
+
+<!-- 性别要求模板 -->
+<script id="person-sex-template" type="text/html">
+<% for (var i = 1; i <= number; i ++) { %>
+<% var ii = i - 1;%>
+<select name="person_sex[]">
+    <option value="0" <% if (!! person_sex_value[ii] && person_sex_value[ii] == 0) { %>selected="selected"<% } %>>不限</option>
+    <option value="1" <% if (!! person_sex_value[ii] && person_sex_value[ii] == 1) { %>selected="selected"<% } %>>男</option>
+    <option value="2" <% if (!! person_sex_value[ii] && person_sex_value[ii] == 2) { %>selected="selected"<% } %>>女</option>
+</select>
+<% } %>
+</script>
+<!-- 性别要求模板 -->
+</body>
+</html>
+<script src="__PUBLIC__/admin/plugin/arttemplate/template-native.js"></script>
+<script>
+var person_sex_value = {$info['aPersonSex']|json_encode};
+
+/**
+ * 参赛人员
+ */
+// 参赛人员类型变更人员函数
+function personTypeSex() {
+    var config = {1: 1, 2: 2, 3: 6, 4: 0};  // 人员数量配置
+    var value  = $('#person-type').val();
+    
+    if (value == 4) {
+        $('#person-type-sex').hide();
+    } else {
+        $('#person-type-sex').show();
+    }
+
+    var html = template('person-sex-template', {number: config[value], person_sex_value: person_sex_value});
+    $('#person-type-sex-render').html(html);
+}
+// 参赛人员类型
+$(document).on('change', '#person-type', function(){
+    personTypeSex();
+});
+// 初始化单人
+personTypeSex();
+
+/**
+ * 年龄限制
+ */
+// 年龄限制显示函数
+function ageTypeDate() {
+    var value = $('#age-type').val();
+
+    if (value == 1 || value == 2 || value == 3) {
+        $('#age-type-date').show();
+
+        if (value == 3) {
+            $('#age-type-date2').show();
+        } else {
+            $('#age-type-date2').hide();
+        }
+    } else {
+        $('#age-type-date').hide();
+        $('#age-type-date2').hide();
+    }
+}
+// 年龄限制显示表单
+$(document).on('change', '#age-type', function(){
+    ageTypeDate();
+});
+ageTypeDate();  // 初始化
+
+/**
+ * 板块选择
+ */
+function ipateAmat() {
+    var value  = $('input[name="ipate"]:checked').val();
+
+    if (value == 'AMAT') {
+        $('#ipate-amat-box').show();
+    } else {
+        $('#ipate-amat-box').hide();
+    }
+}
+// 选择显示表单
+$(document).on('click', 'input[name="ipate"]', function(){
+    ipateAmat();
+})
+ipateAmat() // 初始化
+
+// 表单提交
+$('#dataForm').submit(function(){
+    var form = $(this);
+    layer.load();
+
+    $.post(form.attr('action'), form.serialize(), function(d){
+        layer.closeAll('loading');
+        
+        if (d.status) {
+            window.location.href = d.url;            
+        } else {
+            layer.msg(d.msg);
+            return false;
+        }
+    }, 'json');
+
+    return false;
+})
+</script>

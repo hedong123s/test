@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<include file="Public/title" />
+</head>
+
+<body>
+<div class="mainWrap">
+    <!--标题-->
+    <div class="mainWrapHeader">
+    	<h1 class="mainWrapTit">已审核完成列表</h1>
+    </div>
+    <!--标题-->
+    
+    <div class="mainWrapBd">
+        
+        <form action="{:U('batchDo')}" method="post" name="doForm" onsubmit="return batchConfirm(this);">
+        <!--列表-->
+        <table cellpadding="0" cellspacing="0" border="0" class="stdtable stdtablelist">
+            <colgroup>
+                <col style="width:50px;" />
+                <col style="width:280px;"/>
+                <col />
+                <col />
+                <col />
+                <col />
+                <col/>
+            </colgroup>
+            <thead>
+                <tr>
+                    <th class="center">ID</th>
+                    <th>赛程名称</th>
+                    <th>用户名</th>
+                    <th>代表队名称</th>
+                    <th>带队老师名称</th>
+                    <th>带队老师联系方式</th>
+					<th>审核通过时间</th>                   
+                    <th>参赛详情</th>
+                    <th>总服务费</th>
+                    <th>支付状态</th> 
+                    <th>支付时间</th>              
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+            	<volist name="pages['lists']" id="fo">
+                <tr>
+                	<?php
+                		$prefix = C('DB_PREFIX');
+                		$list = M("match_event_entrys m")->limit($Page->firstRow.','.$Page->listRows)
+								->field("m.*,me.event_title,me.event_number,me.dances,me.fee,ms.title")
+								->join($prefix . 'match_events me on me.id = m.event_id')
+								->join($prefix . 'matchs ms on ms.id = m.match_id')
+								->where(array("match_entry_id"=>$fo['id']))
+								->select();	
+							
+                	?>
+                    <td align="center">
+                    	{$fo['id']}
+                    </td>
+                    <td>
+                        {$fo['title']}
+                    </td>
+                    <td>
+                    	{$fo['username']}
+                    </td>
+                    <td>
+                    	{$fo['team_name']}
+                    </td>
+                    <td>
+                    	{$fo['team_teacher']}
+                    </td>
+                    <td>
+                    	{$fo['team_contact']}
+                    </td>
+                    
+                    <td>
+                        {$fo['confirm_time']|format_date}
+                    </td>                    
+                    <td>
+                    	<volist name="list" id="vo">                   	
+                    	组别名称：{$vo.event_title}<br/>
+                    	选手：
+                    	<?php
+                    		$r = M("match_event_entry_player")->where(array("event_entry_id"=>$vo['id']))->select();
+                    		foreach ($r as $key => $value) {
+                    			$rs = M("players")->where(array("id"=>$value["player_id"]))->find();
+                    			echo $rs["name"];
+                    			echo "&nbsp;&nbsp;";
+                    		}
+                    	?><br/>
+                    	审核状态：<if condition="$vo['status'] == 1">通过<else/>不通过</if><br/>
+                    	服务费：{$vo.fee}<br/>
+                    	
+                    	<span style="color:green">—————————————</span><br/>
+                    	</volist>
+
+                    </td>
+                    <td>
+                    	{$fo['amount']}
+                    </td>
+                   
+                    <td>
+                    	<if condition="$fo['pay_status'] == 0">
+                    		<span style="color:red">未支付</span>
+                    	<else/>
+                    		<span style="color:green">已支付</span>
+                    	</if>
+                    </td>
+                    <td>
+                    	<if condition="$fo['paid_at'] != 0">
+                    	{$fo['paid_at']|format_date}
+                    	<else/>
+                        -
+                    	</if>
+                    </td>
+
+                    <td>
+                        <a href="{:U('paycommit',array('id'=> $fo['id']))}">确认支付</a>
+                        
+                    </td>
+                </tr>
+                </volist>
+                <if condition="$pages['total'] eq 0">
+                <tr>
+                    <td align="center" class="data-nothing" colspan="9">暂无相关信息</td>
+                </tr>
+                </if>
+            </tbody>
+        </table>
+        <!--列表-->
+        
+        <!--工具-->
+        <div class="tableTools clearfix">
+            <div class="tableOptions fl">
+            </div>
+            <div class="fr">
+                {$pages['show']}
+            </div>
+        </div>
+        <!--工具-->
+        </form>
+        
+    </div>
+    
+</div>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<include file="Public/title" />
+</head>
+
+<body>
+<div class="mainWrap">
+    <!--标题-->
+    <div class="mainWrapHeader">
+    	<h1 class="mainWrapTit">{$seotitle} <a href="{:U('add')}" class="btn btn_edit"><span>添加</span></a></h1>
+    </div>
+    <!--标题-->
+    
+    <div class="mainWrapBd">
+        
+        <form action="{:U('batchDo')}" method="post" name="doForm" onsubmit="return batchConfirm(this);">
+        <!--列表-->
+        <table cellpadding="0" cellspacing="0" border="0" class="stdtable stdtablelist">
+            <colgroup>
+                <col style="width:50px;" />
+                <col style="width:50px;" />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col style="width:150px;" />
+                <col style="width:160px;" />
+                <col style="width:120px;" />
+            </colgroup>
+            <thead>
+                <tr>
+                    <th class="center"><input type="checkbox" class="checkall" /></th>
+                    <th class="center">ID</th>
+                    <th>文章标题</th>
+                    <th>分类名称</th>
+                    <th>排序编号</th>
+                    <th>是否生效</th>
+                    <th>创建时间</th>
+                    <th>更新时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+            	<volist name="pages['lists']" id="fo">
+                <tr>
+                    <td align="center"><input type="checkbox" name="id[]" value="{$fo['id']}" /></td>
+                    <td align="center">{$fo['id']}</td>
+                    <td>{$fo['title']}</td>
+                    <td>{$fo['category_name']}</td>
+                   <td>{$fo['sortid']}</td>
+                    <td>{$fo['status'] == 1 ? '生效' : '未生效'}</td>
+                    <td>{$fo['created_at']|format_date}</td>
+                    <td>{$fo['updated_at']|format_date}</td>
+                    <td>
+                        <a href="{:U('edit',array('id'=>$fo['id']))}">修改</a> &nbsp; 
+                        <a href="{:U('delete',array('id'=>$fo['id']))}" onclick="return confirm('确认删除吗？')">删除</a> &nbsp; 
+                    </td>
+                </tr>
+                </volist>
+                <if condition="$pages['total'] eq 0">
+                <tr>
+                    <td align="center" class="data-nothing" colspan="9">暂无相关信息</td>
+                </tr>
+                </if>
+            </tbody>
+        </table>
+        <!--列表-->
+        
+        <!--工具-->
+        <div class="tableTools clearfix">
+            <div class="tableOptions fl">
+            </div>
+            <div class="fr">
+                {$pages['show']}
+            </div>
+        </div>
+        <!--工具-->
+        </form>
+        
+    </div>
+    
+</div>
+</body>
+</html>

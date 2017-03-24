@@ -1,0 +1,93 @@
+<extend name="Layouts/app" />
+
+<block name="title">{$seotitle}</block>
+
+<block name="header-skin">
+</block>
+
+
+<block name="head">
+<div class="page-heading">
+    <h3>
+        {$seotitle}
+    </h3>
+    <ul class="breadcrumb">
+        <li>
+            <a href="__ROOT__/">首页</a>
+        </li>
+        <li>
+            <a href="{:U('index')}">赛事管理</a>
+        </li>
+        <li class="active">{$seotitle}</li>
+    </ul>
+</div>
+</block>
+
+<block name="wrapper">
+    <div class="wrapper">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel">
+                    <div class="panel-heading">
+                        {$seotitle}
+                    </div>
+
+                    <div class="panel-body">
+                        <!-- 表格 -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <!-- <div class="table-responsive"> -->
+                                    <table class="table table-bordered table-striped table-hover table-condensed">
+                                        <colgroup>
+                                            <col />
+                                            <col style="width:120px;" />
+                                        </colgroup>
+                                        <thead>
+                                            <tr>
+                                                <th>赛事名称</th>
+                                                <th>操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <volist name="pages['lists']" id="vo">
+                                            <tr>
+                                                <td>{$vo['title']}</td>
+                                                <td>
+                                                    <a href="{:U('signup', ['match_id' => $vo['id']])}">报名</a>&nbsp;&nbsp;
+                                                    <a href="{:U('MatchEntry/index', ['match_id' => $vo['id']])}">规程</a>
+                                                </td>
+                                            </tr>
+                                            </volist>
+                                            <if condition="$pages['total'] eq 0">
+                                            <tr>
+                                                <td align="center" class="data-nothing" colspan="9">暂无相关信息</td>
+                                            </tr>
+                                            </if>
+                                        </tbody>
+                                    </table>
+                                <!-- </div> -->
+                            </div>
+                        </div>                    
+                        <!-- 表格 -->
+
+                        <!--分页-->
+                        <div class="clearfix list-pagination">
+                            <div class="pull-right">
+                                {$pages['show']}
+                            </div>
+                        </div>
+                        <!--分页-->
+                        
+                    </div>
+                </div>
+
+            </div>        
+        </div>
+    </div>
+</block>
+
+<block name="bottom-script">
+<script>
+high_light_menu('Match:index');  // 高亮菜单
+</script>
+</block>

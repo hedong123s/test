@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<include file="Public/title" />
+<style>
+.match-title{ padding-bottom: 15px; font-size: 18px; }
+</style>
+</head>
+
+<body>
+<div class="mainWrap">
+    <!--标题-->
+    <div class="mainWrapHeader">
+    	<h1 class="mainWrapTit">{$seotitle} <a href="{:U('add', ['match_id' => $match['id']])}" class="btn btn_edit"><span>添加二级版块</span></a></h1>
+    </div>
+    <!--标题-->
+    
+    <div class="mainWrapBd">
+        <!-- 赛程信息 -->
+        <h3 class="match-title"><b>赛程：</b>{$match['title']}</h3>
+        <!-- 赛程信息 -->
+
+        <form action="{:U('batchDo')}" method="post" name="doForm" onsubmit="return batchConfirm(this);">
+        <!--列表-->
+        <table cellpadding="0" cellspacing="0" border="0" class="stdtable stdtablelist">
+            <colgroup>
+                <col style="width:50px;" />
+                <col />
+                <col />
+                <col />
+                <col style="width:150px;" />
+                <col style="width:160px;" />
+                <col style="width:160px;" />
+            </colgroup>
+            <thead>
+                <tr>
+                    <th class="center">ID</th>
+                    <th>版块名称</th>
+                    <th>所属一级版块</th>
+                    <th>下级板块是否可跨类报</th>
+                    <th>创建时间</th>
+                    <th>更新时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+            	<volist name="lists" id="fo">
+                <tr>
+                    <td align="center">{$fo['id']}</td>
+                    <td>{$fo['name']} <if condition="in_array($fo['ident'], ['PROC', 'SPEC', 'AMAT'])"><span class="f_red">[一级板块]</span></if></td>
+                    <td>{$fo['first_ipate_array']|implode=', '}</td>
+                    <td>
+                        <if condition="in_array($fo['ident'], ['PROC', 'SPEC', 'AMAT'])">
+                        <a href="{:U('cross', ['id' => $fo['id'], 'status' => ! $fo['is_cross']])}">{$fo['is_cross'] == 1 ? '是' : '否'}</a>
+                        </if>
+                    </td>
+                    <td>{$fo['created_at']|format_date}</td>
+                    <td>{$fo['updated_at']|format_date}</td>
+                    <td>
+                        <if condition="! in_array($fo['ident'], ['PROC', 'SPEC', 'AMAT'])">
+                        <a href="{:U('edit', ['id' => $fo['id']])}">编辑</a>&nbsp;&nbsp;
+                        <a href="{:U('delete', ['id' => $fo['id']])}">删除</a>&nbsp;&nbsp;
+                        </if>
+                    </td>
+                </tr>
+                </volist>
+            </tbody>
+        </table>
+        <!--列表-->
+        </form>
+        
+    </div>
+    
+</div>
+</body>
+</html>

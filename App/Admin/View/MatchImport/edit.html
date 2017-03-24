@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<include file="Public/title" />
+</head>
+
+<body>
+<div class="mainWrap">
+	
+    <!--标题-->
+    <div class="mainWrapHeader">
+    	<h1 class="mainWrapTit">播报系统编辑</h1>
+        <!--切换需要，写对应ID，及class-->
+    </div>
+    <!--标题-->
+    
+    <form action="{:U('update')}" method="post" class="dataForm" id="dataForm">
+    <input type="hidden" name="id" value="{$info['id']}" />
+    <input type="hidden" name="match_id" value="{$match['id']}" />
+    <div class="mainWrapBd">
+    	<div class="tab-con" id="tab-works">
+            <table cellpadding="0" border="0" cellspacing="0" class="stdedit">
+                <tr>
+                    <th>赛事名称</th>
+                    <td><b>{$match['title']}</b></td>
+                </tr>
+                <tr>
+                    <th>合并序号</th>
+                    <td><input type="text" name="merge_num" id="title" class="sys_text sys_text350" value="{$info['merge_num']}" /></td>
+                </tr>
+
+                <tr>
+                    <th>类型</th>
+                    <td>
+                        <select name="type">
+                            <option value="上午场" <if condition="$info['type'] eq '上午场'">selected="selected"</if>>上午场</option>
+                            <option value="下午场" <if condition="$info['type'] eq '下午场'">selected="selected"</if>>下午场</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>赛次</th>
+                    <td>
+                        <select name="race_time">
+                            <option value="初赛" <if condition="$info['race_time'] eq '初赛'">selected="selected"</if>>初赛</option>
+                            <option value="复赛" <if condition="$info['race_time'] eq '复赛'">selected="selected"</if>>复赛</option>
+                            <option value="决赛" <if condition="$info['race_time'] eq '决赛'">selected="selected"</if>>决赛</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>时间</th>
+                    <td><input type="text" name="match_time" class="sys_text sys_text350" value="{$info['match_time']}" /></td>
+                </tr>
+
+                <tr>
+                    <th>组别代码</th>
+                    <td><input type="text" name="group_code" class="sys_text sys_text350" value="{$info['group_code']}" /></td>
+                </tr>
+
+                <tr>
+                    <th>比赛组别</th>
+                    <td><input type="text" name="group_name" class="sys_text sys_text350" value="{$info['group_name']}" /></td>
+                </tr>
+
+                <tr>
+                    <th>分组</th>
+                    <td><input type="text" name="group" class="sys_text sys_text350" value="{$info['group']}" /></td>
+                </tr>
+
+                <tr>
+                    <th>背号</th>
+                    <td><input type="text" name="back_num" class="sys_text sys_text350" value="{$info['back_num']}" /></td>
+                </tr>
+
+                <tr>
+                    <th>参赛对数</th>
+                    <td><input type="text" name="match_num" class="sys_text sys_text350" value="<?php echo (int)$info['match_num'];?>" /></td>
+                </tr>
+
+                <tr>
+                    <th>录取对数</th>
+                    <td><input type="text" name="pass_num" class="sys_text sys_text350" value="{$info['pass_num']}" /></td>
+                </tr>
+
+
+
+                <tr>
+                    <th>舞种</th>
+                    <td>
+                        <foreach name="defineDances" item="vo">
+                        <label>
+                            <input type="checkbox" name="dances[]" value="{$key}" <if condition="in_array($key, $info['aDances'])">checked="checked"</if> /> [{$key}] {$vo} &nbsp;
+                        </label>
+                        </foreach>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>公布状态</th>
+                    <td>
+                        <label><input type="radio" name="publish_status" value="0" <if condition="$info['publish_status'] eq '0'">checked="checked"</if> /> 未开始</label> &nbsp;
+                        <label><input type="radio" name="publish_status" value="1" <if condition="$info['publish_status'] eq '1'">checked="checked"</if> /> 进行中</label> &nbsp;
+                        <label><input type="radio" name="publish_status" value="2" <if condition="$info['publish_status'] eq '2'">checked="checked"</if> /> 已结束</label> &nbsp;
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>检录状态</th>
+                    <td>
+                        <label><input type="radio" name="collect_status" value="0" <if condition="$info['collect_status'] eq '0'">checked="checked"</if> /> 未开始</label> &nbsp;
+                        <label><input type="radio" name="collect_status" value="1" <if condition="$info['collect_status'] eq '1'">checked="checked"</if> /> 进行中</label> &nbsp;
+                        <label><input type="radio" name="collect_status" value="2" <if condition="$info['collect_status'] eq '2'">checked="checked"</if> /> 已结束</label> &nbsp;
+                    </td>
+                </tr>
+               
+                
+            </table>            
+        </div>        
+        
+        <div class="stdeditSubmit"><input type="submit" class="submit" value="提 交" /> <input type="button" value="返回上一页" class="reset" onclick="history.go(-1);" /></div>
+    </div>
+    </form>
+</div>
+
+
+</body>
+</html>
+<script src="__PUBLIC__/admin/plugin/arttemplate/template-native.js"></script>
+<script>
+
+
+// 表单提交
+$('#dataForm').submit(function(){
+    var form = $(this);
+    layer.load();
+
+    $.post(form.attr('action'), form.serialize(), function(d){
+        layer.closeAll('loading');
+        
+        if (d.status) {
+            window.location.href = d.url;            
+        } else {
+            layer.msg(d.msg);
+            return false;
+        }
+    }, 'json');
+
+    return false;
+})
+</script>

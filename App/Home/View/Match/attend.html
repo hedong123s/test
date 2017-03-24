@@ -1,0 +1,107 @@
+<extend name="Layouts/app" />
+
+<block name="title">{$seotitle}</block>
+
+<block name="header-skin">
+</block>
+
+
+<block name="head">
+<div class="page-heading">
+    <h3>
+        {$seotitle}
+    </h3>
+    <ul class="breadcrumb">
+        <li>
+            <a href="__ROOT__/">首页</a>
+        </li>
+        <li>
+            <a href="{:U('index')}">赛事管理</a>
+        </li>
+        <li class="active">{$seotitle}</li>
+    </ul>
+</div>
+</block>
+
+<block name="wrapper">
+    <div class="wrapper">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel">
+                    <div class="panel-heading">
+                        {$seotitle}
+                    </div>
+
+                    <div class="panel-body">
+                        <!-- 表格 -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <!-- <div class="table-responsive"> -->
+                                    <table class="table table-bordered table-striped table-hover table-condensed">
+                                        <colgroup>
+                                            <col />
+                                            <!-- <col style="width:150px;" />
+                                            <col style="width:120px;" />
+                                            <col style="width:360px;" />
+                                            <col style="width:360px;" />
+                                            <col style="width:160px;" /> -->
+                                            <col style="width:120px;" />
+                                        </colgroup>
+                                        <thead>
+                                            <tr>
+                                                <th>赛事名称</th>
+                                                <!-- <th>代表队名称</th>
+                                                <th>代表老师</th>
+                                                <th>报名时间</th>
+                                                <th>比赛时间</th>
+                                                <th>现场联系电话</th> -->
+                                                <th>操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <volist name="pages['lists']" id="vo">
+                                            <tr>
+                                                <td>{$vo['title']}</td>
+                                                <!-- <td>{$vo['team_name']}</td>
+                                                <td>{$vo['team_teacher']}</td>
+                                                <td>{$vo['sign_start_time']|format_date} ~ {$vo['sign_end_time']|format_date}</td>
+                                                <td>{$vo['match_start_time']|format_date} ~ {$vo['match_end_time']|format_date}</td>
+                                                <td>{$vo['contact_number']}</td> -->
+                                                <td>
+                                                    <a href="{:U('MatchEntry/index', ['match_id' => $vo['id']])}">进入</a>
+                                                </td>
+                                            </tr>
+                                            </volist>
+                                            <if condition="$pages['total'] eq 0">
+                                            <tr>
+                                                <td align="center" class="data-nothing" colspan="9">暂无相关信息</td>
+                                            </tr>
+                                            </if>
+                                        </tbody>
+                                    </table>
+                                <!-- </div> -->
+                            </div>
+                        </div>                    
+                        <!-- 表格 -->
+
+                        <!--分页-->
+                        <div class="clearfix list-pagination">
+                            <div class="pull-right">
+                                {$pages['show']}
+                            </div>
+                        </div>
+                        <!--分页-->
+                        
+                    </div>
+                </div>
+
+            </div>        
+        </div>
+    </div>
+</block>
+
+<block name="bottom-script">
+<script>
+high_light_menu('Match:index');  // 高亮菜单
+</script>
+</block>

@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<include file="Public/title" />
+</head>
+
+<body>
+<div class="mainWrap">
+    <!--标题-->
+    <div class="mainWrapHeader">
+    	<h1 class="mainWrapTit">已报名审核</h1>
+    </div>
+    <!--标题-->
+    
+    <div class="mainWrapBd">
+        
+        <form action="{:U('batchDo')}" method="post" name="doForm" onsubmit="return batchConfirm(this);">
+        <!--列表-->
+        <table cellpadding="0" cellspacing="0" border="0" class="stdtable stdtablelist">
+            <colgroup>
+                <col style="width:50px;" />
+                <col style="width:280px;"/>
+                <col />
+                <col />
+                <col />
+                <col />
+                <col/>
+            </colgroup>
+            <thead>
+                <tr>
+                    <th class="center">组别报名ID</th>
+                    <th>赛程名称</th>
+                    <th>组别名称</th>
+                    <th>组别编码</th>
+                    <th>舞种</th>
+                    <th>服务费</th>
+                    <th>用户</th>
+                    <th>参赛选手</th>
+					<th>创建（报名）时间</th>
+                    <th>审核状态</th>
+                    <th>审核时间</th>           
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+            	<volist name="pages['lists']" id="fo">
+                <tr>
+                    <td align="center">
+                    	{$fo['id']}
+                    </td>
+                    <td>
+                        {$fo['title']}
+                    </td>
+                    <td>
+                    	{$fo['event_title']}
+                    </td>
+                    <td>
+                    	{$fo['event_number']}
+                    </td>
+                    <td>
+                    	{$fo['dances']}
+                    </td>
+                    <td>
+                    	{$fo['fee']}
+                    </td>
+                    <td>
+                        {$fo['username']}
+                    </td>
+                    <td>
+                    	<?php
+                    		$r = M("match_event_entry_player")->where(array("event_entry_id"=>$fo['id']))->select();
+                    		foreach ($r as $key => $value) {
+                    			$rs = M("players")->where(array("id"=>$value["player_id"]))->find();
+                    			echo $rs["name"];
+                    			echo "&nbsp;&nbsp;&nbsp;&nbsp;";
+                    		}
+                    	?>
+                    </td>
+                    <td>
+                    	{$fo['created_at']|format_date}
+                    </td>
+                    <td>
+                    	<if condition="$fo['status'] == 0">
+                    		<span style="">待审核</span>
+                    	<elseif condition="$fo['status'] == 1"/>
+                    		<span style="color:green">审核通过</span>
+                    	<else/>
+                    		<span style="color:red">审核不通过</span>
+                    	</if>
+                    </td>
+                    <td>
+                        <if condition="$fo['audit_time'] != 0">
+                    	{$fo['audit_time']|format_date}
+                        <else/>
+                        -
+                        </if>
+                    </td>
+
+                    <td>
+                        <a href="{:U('pass',array('id'=> $fo['id'],'match_entry_id'=>$fo['match_entry_id'],'money'=>$fo['fee']))}">审核通过</a> &nbsp;&nbsp; 
+                        <a href="{:U('nopass',array('id'=> $fo['id']))}">审核不通过</a> &nbsp;&nbsp; 
+                    </td>
+                </tr>
+                </volist>
+                <if condition="$pages['total'] eq 0">
+                <tr>
+                    <td align="center" class="data-nothing" colspan="9">暂无相关信息</td>
+                </tr>
+                </if>
+            </tbody>
+        </table>
+        <!--列表-->
+        
+        <!--工具-->
+        <div class="tableTools clearfix">
+            <div class="tableOptions fl">
+            </div>
+            <div class="fr">
+                {$pages['show']}
+            </div>
+        </div>
+        <!--工具-->
+        </form>
+        
+    </div>
+    
+</div>
+</body>
+</html>

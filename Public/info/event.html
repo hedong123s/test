@@ -1,0 +1,52 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
+<html  xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Language" content="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" /> 
+<title>广东省青年舞蹈协会</title>
+<meta name=keywords content="广东省青年舞蹈协会">
+<meta name=description content="广东省青年舞蹈协会">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0"> 
+<meta name="apple-mobile-web-app-capable" content="yes"> 
+<meta name="apple-mobile-web-app-status-bar-style" content="black"> 
+<meta name="format-detection" content="telephone=no"> 
+</head>
+
+    <link href="./css/common.css" rel="stylesheet" />
+<body>
+    <a name="top"></a>
+    <div class="content">
+        <div class="top">
+            <a href="/"><img src="./images/logo.png" width="185px" border="0" /></a></div>
+        <div class="main" >
+            <table width="95%" border="1" align="center" cellpadding="3" cellspacing="0" bordercolor="#e1e0e0" class="gamelist">
+  <tr class="th">
+    <td class="title">赛事名称</td>
+    <td class="time">比赛时间</td>
+    <td class="detail">&nbsp;</td>
+  </tr>
+  <% for i=1 to 5 %>
+  <tr>
+    <td class="title"><a href="#">2016年广东省标准舞、拉丁舞年度总决赛</a></td>
+    <td class="time">2016-12-13</td>
+    <td class="detail"><% If request("cz")="bm" Then %><a href="http://wd.xiutub.com/MatchEntry/signup/match_id/8.html">报名</a><% Else %><a href="http://wd.xiutub.com/MatchEntry/index/match_id/8.html">查看规程</a><% End If %></td>
+  </tr>
+  <tr>
+    <td class="title"><a href="#">2016年广东省标准舞、拉丁舞年度总决赛 暨第十届珠江三角洲标准舞、拉丁舞公开赛 竞赛规程</a></td>
+    <td>2016-12-23</td>
+    <td class="detail"><% If request("cz")="bm" Then %><a href="http://wd.xiutub.com/MatchEntry/signup/match_id/8.html">报名</a><% Else %><a href="http://wd.xiutub.com/MatchEntry/index/match_id/8.html">查看规程</a><% End If %></td>
+  </tr>
+  <% next %>
+</table>
+
+            <div class="copy">
+                版权所有：广东省青年舞蹈协会</div>
+        </div>
+    </div>
+    
+
+
+</body>
+</html>

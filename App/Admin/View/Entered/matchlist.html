@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<include file="Public/title" />
+</head>
+
+<body>
+<div class="mainWrap">
+    <!--标题-->
+    <div class="mainWrapHeader">
+    	<h1 class="mainWrapTit">赛程列表</h1>
+    </div>
+    <!--标题-->
+    
+    <div class="mainWrapBd">
+        
+        <form action="{:U('batchDo')}" method="post" name="doForm" onsubmit="return batchConfirm(this);">
+        <!--列表-->
+        <table cellpadding="0" cellspacing="0" border="0" class="stdtable stdtablelist">
+
+            <colgroup>
+                <col style="width:50px;" />
+   				<col/>
+                <col/>
+            </colgroup>
+            <thead>
+                <tr>
+                    <th class="center">赛程ID</th>
+                    <th>赛程名称</th>                  
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+            	<volist name="pages['lists']" id="fo">
+
+                    <?php
+                       $rr = M("match_event_entrys")->where(array("match_id"=>$fo['match_id'],'event_id'=>$fo['event_number']))->select();
+                       //var_dump($rr);
+                    ?>
+                <tr>
+                    <td align="center">
+                    	{$fo['id']}
+                    </td>
+                    <td>
+                        {$fo['title']}
+                    </td>
+                   
+                    <if condition="$type eq 'bm'">
+                    <td>
+                        <a href="{:U('audit',array('id'=> $fo['id']))}">进入</a>                       
+                    </td>
+                    </if>
+
+                    <if condition="$type eq 'zf'">
+                    <td>
+                        <a href="{:U('pay_audit',array('id'=> $fo['id']))}">进入</a>                       
+                    </td>
+                    </if>
+                </tr>
+                </volist>
+                <if condition="$pages['total'] eq 0">
+                <tr>
+                    <td align="center" class="data-nothing" colspan="9">暂无相关信息</td>
+                </tr>
+                </if>
+            </tbody>
+        </table>
+        <!--列表-->
+        
+        <!--工具-->
+        <div class="tableTools clearfix">
+            <div class="tableOptions fl">
+            </div>
+            <div class="fr">
+                {$pages['show']}
+            </div>
+        </div>
+        <!--工具-->
+        </form>
+        
+    </div>
+    
+</div>
+</body>
+</html>

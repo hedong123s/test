@@ -1,0 +1,259 @@
+<extend name="Layouts/app" />
+
+<block name="title">{$seotitle}</block>
+
+<block name="header-skin">
+<link href="__PUBLIC__/plugin/select2/css/select2.min.css" rel="stylesheet" />
+</block>
+
+
+<block name="head">
+<div class="page-heading">
+    <h3>
+        {$seotitle}
+    </h3>
+    <ul class="breadcrumb">
+        <li>
+            <a href="__ROOT__/">首页</a>
+        </li>
+        <li>
+            <a href="{:U('Match/index')}">赛事管理</a>
+        </li>
+        <li>
+            <a href="{:U('Match/attend')}">我的赛事</a>
+        </li>
+        <li class="active">{$seotitle}</li>
+    </ul>
+</div>
+</block>
+
+<block name="wrapper">
+    <div class="wrapper">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel">
+                    <div class="panel-heading">
+                        {$seotitle} - 参赛选手
+                        <a href="javascript:;" class="btn btn-success btn-sm" onclick="layer.open({type:2, content:'{:U('Player/add')}',title:'添加选手',area:['80%','90%']})"><i class="fa fa-plus"></i> 添加选手</a>
+                    </div>
+
+                    <div class="panel-body">
+                        <!--主体-->
+                        <form class="form-horizontal" method="post" action="{:U('signup_step2_check')}" id="form-submit">
+                            <input type="hidden" name="match_id" value="{$_match['id']}">
+                            <input type="hidden" name="person_type" value="{$person_type}">
+                            <input type="hidden" name="ipate" value="{$ipate}">
+                            
+                            <if condition="$person_type eq 1">
+                            {/*单人*/}
+                            <div class="form-group">
+                                <label class="control-label col-md-2">&nbsp;</label>
+                                <div class="col-md-10">
+                                    <p class="form-control-static"><i class="fa fa-info-circle"></i> 姓名 - 性别 - 身份证 - 年龄</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">选手</label>
+                                <div class="col-md-10">
+                                    <if condition="$user['type'] eq 0">
+                                    <p class="form-control-static">
+                                        {$user_player['name']} - {$user_player['sex']|getSexFromType} - {$user_player['idcard']|hide_idcard} - {$user_player['age']}岁
+                                        <input type="hidden" name="player[]" value="{$user_player['id']}">
+                                    </p>
+                                    <else />
+                                    <select name="player[]" class="form-control player-select">
+                                        <option value="">请选择选手</option>
+                                        <volist name="players" id="vo">
+                                        <option value="{$vo['id']}">{$vo['name']} - {$vo['sex']|getSexFromType} - {$vo['idcard']|hide_idcard} - {$vo['age']}岁</option>
+                                        </volist>
+                                    </select>
+                                    </if>
+                                </div>
+                            </div>
+
+                            <elseif condition="$person_type eq 2" />
+                            {/*双人*/}
+                            <div class="form-group">
+                                <label class="control-label col-md-2">&nbsp;</label>
+                                <div class="col-md-10">
+                                    <p class="form-control-static"><i class="fa fa-info-circle"></i> 姓名 - 性别 - 身份证 - 年龄</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">选手</label>
+                                <div class="col-md-10">
+                                    <if condition="$user['type'] eq 0">
+                                    <p class="form-control-static">
+                                        {$user_player['name']} - {$user_player['sex']|getSexFromType} - {$user_player['idcard']|hide_idcard} - {$user_player['age']}岁
+                                        <input type="hidden" name="player[]" value="{$user_player['id']}">
+                                    </p>
+                                    <else />
+                                    <select name="player[]" class="form-control player-select">
+                                        <option value="">请选择选手</option>
+                                        <volist name="players" id="vo">
+                                        <option value="{$vo['id']}">{$vo['name']} - {$vo['sex']|getSexFromType} - {$vo['idcard']|hide_idcard} - {$vo['age']}岁</option>
+                                        </volist>
+                                    </select>
+                                    </if>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">选手</label>
+                                <div class="col-md-10">
+                                    <select name="player[]" class="form-control player-select">
+                                        <option value="">请选择选手</option>
+                                        <volist name="players" id="vo">
+                                        <option value="{$vo['id']}">{$vo['name']} - {$vo['sex']|getSexFromType} - {$vo['idcard']|hide_idcard} - {$vo['age']}岁</option>
+                                        </volist>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <elseif condition="$person_type eq 3" />
+                            {/*6人*/}
+                            <div class="form-group">
+                                <label class="control-label col-md-2">&nbsp;</label>
+                                <div class="col-md-10">
+                                    <p class="form-control-static"><i class="fa fa-info-circle"></i> 姓名 - 性别 - 身份证 - 年龄</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2">选手</label>
+                                <div class="col-md-10">
+                                    <if condition="$user['type'] eq 0">
+                                    <p class="form-control-static">
+                                        {$user_player['name']} - {$user_player['sex']|getSexFromType} - {$user_player['idcard']|hide_idcard} - {$user_player['age']}岁
+                                        <input type="hidden" name="player[]" value="{$user_player['id']}">
+                                    </p>
+                                    <else />
+                                    <select name="player[]" class="form-control player-select">
+                                        <option value="">请选择选手</option>
+                                        <volist name="players" id="vo">
+                                        <option value="{$vo['id']}">{$vo['name']} - {$vo['sex']|getSexFromType} - {$vo['idcard']|hide_idcard} - {$vo['age']}岁</option>
+                                        </volist>
+                                    </select>
+                                    </if>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">选手</label>
+                                <div class="col-md-10">
+                                    <select name="player[]" class="form-control player-select">
+                                        <option value="">请选择选手</option>
+                                        <volist name="players" id="vo">
+                                        <option value="{$vo['id']}">{$vo['name']} - {$vo['sex']|getSexFromType} - {$vo['idcard']|hide_idcard} - {$vo['age']}岁</option>
+                                        </volist>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">选手</label>
+                                <div class="col-md-10">
+                                    <select name="player[]" class="form-control player-select">
+                                        <option value="">请选择选手</option>
+                                        <volist name="players" id="vo">
+                                        <option value="{$vo['id']}">{$vo['name']} - {$vo['sex']|getSexFromType} - {$vo['idcard']|hide_idcard} - {$vo['age']}岁</option>
+                                        </volist>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">选手</label>
+                                <div class="col-md-10">
+                                    <select name="player[]" class="form-control player-select">
+                                        <option value="">请选择选手</option>
+                                        <volist name="players" id="vo">
+                                        <option value="{$vo['id']}">{$vo['name']} - {$vo['sex']|getSexFromType} - {$vo['idcard']|hide_idcard} - {$vo['age']}岁</option>
+                                        </volist>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="control-label col-md-2">选手</label>
+                                <div class="col-md-10">
+                                    <select name="player[]" class="form-control player-select">
+                                        <option value="">请选择选手</option>
+                                        <volist name="players" id="vo">
+                                        <option value="{$vo['id']}">{$vo['name']} - {$vo['sex']|getSexFromType} - {$vo['idcard']|hide_idcard} - {$vo['age']}岁</option>
+                                        </volist>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">选手</label>
+                                <div class="col-md-10">
+                                    <select name="player[]" class="form-control player-select">
+                                        <option value="">请选择选手</option>
+                                        <volist name="players" id="vo">
+                                        <option value="{$vo['id']}">{$vo['name']} - {$vo['sex']|getSexFromType} - {$vo['idcard']|hide_idcard} - {$vo['age']}岁</option>
+                                        </volist>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <elseif condition="$person_type eq 4" />
+                            {/*集体舞*/}
+                            <div class="form-group">
+                                <label class="control-label col-md-2">参赛团名称</label>
+                                <div class="col-md-10">
+                                    <input type="text" name="player_group_name" class="form-control">
+                                </div>
+                            </div>
+                            </if>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <button type="submit" class="btn btn-primary">确认报名</button>&nbsp;&nbsp;
+                                    <button type="button" class="btn btn-default" onclick="history.go(-1);">返 回</button>
+                                </div>
+                            </div>
+
+                        </form>
+                        <!--主体-->
+                    </div>
+                </div>
+
+            </div>        
+        </div>
+    </div>
+</block>
+
+<block name="bottom-script">
+<script src="__PUBLIC__/plugin/select2/js/select2.full.min.js"></script>
+<script src="__PUBLIC__/plugin/select2/js/i18n/zh-CN.js"></script>
+<script>
+// select2插件
+$('.player-select').select2({
+    language: 'zh-CN'
+});
+
+// 表单提交
+$('#form-submit').submit(function(){
+    var form = $(this);
+    layer.load();
+
+    console.log(form.serialize());
+
+    $.post(form.attr('action'), form.serialize(), function(d){
+        layer.closeAll('loading');
+        
+        if (d.status) {
+            window.location.href = d.url;            
+        } else {
+            layer.msg(d.msg);
+            return false;
+        }
+    }, 'json');
+
+    return false;
+})
+
+high_light_menu('MatchEntry:signup');  // 高亮菜单
+</script>
+</block>

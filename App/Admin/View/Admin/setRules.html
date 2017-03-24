@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<include file="Public/title" />
+</head>
+
+<body>
+<div class="mainWrap">
+	
+    <!--标题-->
+    <div class="mainWrapHeader">
+    	<h1 class="mainWrapTit">{$seotitle}</h1>
+        <!--切换需要，写对应ID，及class-->
+    </div>
+    <!--标题-->
+    
+    <form action="{:U('setRulesSave', array('id' => $role['id']))}" method="post" class="dataForm" id="dataForm">
+    <div class="mainWrapBd">
+    	<div class="tab-con" id="tab-works">
+        	
+            <table cellpadding="0" border="0" cellspacing="0" class="stdedit">
+                <tr>
+                    <th>管理组名称</th>
+                    <td>123123</td>
+                </tr>
+                <tr>
+                    <th>管理组权限</th>
+                    <td>
+                    	<foreach name="ruleTypes" item="fo">
+                    	<div class="setWrap ruleWrap ruleWrapCur">
+                            <div class="setWrapTit"><label><input type="checkbox"> {$fo}</label></div>
+                            <div class="setWrapBody">
+                            	<ul class="clearfix ruleList">
+                                	<volist name="ruleArrs[$key]" id="foo">
+                                	<li><label><input type="checkbox" name="rule_ids[]" <if condition="in_array($foo['id'],$alrRuleids)">checked="checked"</if> value="{$foo['id']}"> {$foo['name']} <span class="ruleRules" style="display:none;">[{$foo['value']}]</span></label></li>
+                                    </volist>
+                                </ul>
+                            </div>
+                        </div>
+                        </foreach>
+                    </td>
+                </tr>
+            </table>
+            
+        </div>        
+        
+        <div class="stdeditSubmit"><input type="submit" class="submit" value="提 交" /> <input type="button" value="返回上一页" class="reset" onclick="history.go(-1);" /></div>
+    </div>
+    </form>
+    
+</div>
+</body>
+</html>
+<script type="text/javascript">
+$(function(){	
+	//权限功能
+	$(".ruleWrap").each(function(){
+		var i=$(this);
+		var t=i.find(".setWrapTit");
+		var t_label=t.find("label");
+		var label_input=t_label.find("input[type='checkbox']");
+		var b=i.find(".setWrapBody");
+		//展开关闭
+		t.click(function(e){
+			if(!$(e.target).closest("label").is(t_label)){
+				if(b.is(":hidden") && !b.is(":animated")){
+					i.addClass("ruleWrapCur");
+					b.slideDown(200);
+				}else{
+					i.removeClass("ruleWrapCur");
+					b.slideUp(200);
+				}
+			}
+		})
+		//全选/全部选
+		label_input.click(function(){
+			b.find("input[type='checkbox']").attr("checked",!!label_input.attr("checked"))
+		})
+		
+		//获取状态
+		var checkFun=function(){
+			checked_num=b.find("input:checked").size();
+			checked_count=b.find("input[type='checkbox']").size()
+			label_input.get(0).indeterminate=false;
+			if(checked_num==checked_count && checked_count!=0){
+				label_input.attr("checked",true);
+			}else if(checked_num==0){
+				label_input.attr("checked",false);
+			}else{
+				label_input.get(0).indeterminate=true;
+			}
+		}
+		
+		//部分
+		b.find("input[type='checkbox']").click(function(){
+			checkFun();
+		})
+		
+		//初始化
+		checkFun();
+		
+	})
+	
+})
+</script>

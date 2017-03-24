@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+<title>文件上传</title>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/admin/plugin/uploadify/uploadify.css">
+<script type="text/javascript" src="__PUBLIC__/admin/js/jquery-1.7.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/admin/plugin/artDialog/jquery.artDialog.js?skin=default"></script>
+<script type="text/javascript" src="__PUBLIC__/admin/plugin/artDialog/plugins/iframeTools.source.js"></script>
+<script type="text/javascript" src="__PUBLIC__/admin/plugin/uploadify/js/plupload.full.min.js"></script>
+</head>
+<body>
+
+<div class="Cont">
+    <p class="Note">最多上传<strong>{$number|default=1}</strong>个文件,单文件最大<strong>{$formatSize}</strong>,类型<strong>{$extArrs|implode=';',###}</strong></p>
+    <div class="flashWrap" id="fileContainer">
+        <button class="selectBtn" id="fileBtn"></button>
+        <span style="display:none;"><label><input type="checkbox" name="iswatermark" id="iswatermark"   />是否添加水印</label></span>
+    </div>
+
+    <div class="fileWarp">
+        <fieldset>
+            <legend>列表</legend>
+            <ul id="fileList" class="clearfix">
+            </ul>
+            <div id="fileQueue">
+            </div>
+        </fieldset>
+    </div>
+
+</div>
+</body>
+</html>
+<script>
+$(function(){
+    // 共享数据(初始化)
+    art.dialog.data('upload_files', {});
+
+    // 创建文件上传对象
+    var uploader = new plupload.Uploader({
+        runtimes : 'html5,flash,silverlight,html4',
+        browse_button : 'fileBtn', // you can pass an id...
+        container: $('#fileContainer')[0], // ... or DOM Element itself
+        url : '{:U('upload', array('size' => $size, 'type' => $type))}',
+        flash_swf_url : '__PUBLIC__/admin/plugin/uploadify/js/Moxie.swf',
+        silverlight_xap_url : '__PUBLIC__/admin/plugin/uploadify/js/Moxie.xap',
+        <if condition="$number eq 1">
+        multi_selection:false,
+        </if>
+        
+        filters : {
+            max_file_size : plupload.formatSize({$size}),
+            mime_types: [
+                {extensions : "{:implode(',', $exts)}"}
+            ]
+        },
+
+        init: {
+            PostInit: function() {
+            },
+
+            FilesAdded: function(up, files) {
+                var txt = '';
+                plupload.each(files, function(file) {
+                    txt += '<div id="SWFUpload_' + file.id + '" class="uploadify-queue-item">';
+                    txt += '<div class="cancel">';
+                    //txt += '<a href="javascript:$('#uploadify').uploadify('cancel', 'SWFUpload_0_2')">X</a>';
+                    txt += '</div>';
+                    txt += '<span class="fileName">' + file.name + ' (' + plupload.formatSize(file.size).toUpperCase() + ')</span><span class="data"> - 0%</span>';
+                    txt += '<div class="uploadify-progress">';
+                    txt += '<div class="uploadify-progress-bar" style="width: 0%;">';
+                    txt += '</div>';
+                    txt += '</div>';
+                    txt += '</div>';
+                });
+                $('#fileQueue').html(txt);
+                uploader.start();
+            },
+
+            UploadProgress: function(up, file) {
+                $('#SWFUpload_' + file.id).find('.data').html('- ' + file.percent + '%');
+            },
+
+            FileUploaded: function(uploader, file, responseObject){
+                var res = eval('(' + responseObject.response + ')');
+                if (res.status) {
+                    var txt = '';
+                    txt += '<li class="img" id="li_' + file.id + '" data-fileid="' + file.id + '">';
+                    txt += '<img src="__ROOT__/' + res.data.filepath + '" width="100" height="100" onerror="this.src=\'__PUBLIC__/admin/plugin/uploadify/nopic.png\'">';
+                    txt += '<input type="hidden" name="filepaths[]" value="' + res.data.filepath + '">';
+                    txt += '<input type="hidden" name="file_ids[]" value="' + res.data.fileid + '">';
+                    txt += '<a href="javascript:void(0);" class="del" rel="li_' + file.id + '">删除</a>';
+                    txt += '</li>';
+
+                    // 加入共享数据
+                    var upload_files      = art.dialog.data('upload_files');
+                    upload_files[file.id] = res.data;
+                    art.dialog.data('upload_files', upload_files);
+
+                    if ({$number} == 1) {
+                        $('#fileList').html(txt);
+                    } else {
+                        $('#fileList').append(txt);
+                    }
+                    $('#SWFUpload_' + file.id).remove();
+                } else {
+                    $('#SWFUpload_' + file.id).addClass('uploadify-error').find('.data').html('-' + res.msg);
+                }
+                //console.log(res);
+                //alert(responseObject.response)
+            },
+
+            Error: function(up, err) {
+                switch (err.code) {
+                    case -600:
+                        msg = '文件大小错误';
+                        break;
+                    case -601:
+                        msg = '文件格式错误';
+                        break;
+                    default:
+                        msg = err.message;
+                }
+                alert(msg);
+                //alert("\nError #" + err.code + ": " + err.message)
+            }
+        }
+    });
+    
+    // 初始化文件上传对象
+    uploader.init();
+
+    // 删除文件
+    $('#fileList li a.del').live('click', function(){
+        var upload_files = art.dialog.data('upload_files');
+        var file_id      = $(this).closest('li').attr('data-fileid');
+        delete upload_files[file_id];
+        art.dialog.data('upload_files', upload_files);
+        $(this).closest('li').remove();
+    })
+})
+
+
+
+
+</script>

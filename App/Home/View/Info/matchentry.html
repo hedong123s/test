@@ -1,0 +1,68 @@
+<extend name="Layouts/app" />
+
+<block name="title">{$seotitle}</block>
+
+<block name="header-skin">
+<style>
+.match-title{ color: #333; line-height: 150%; padding-bottom: 15px; }
+.match-info{ border: 1px dotted #dedede; background: #f8f8f8; padding: 10px 10px 0; }
+.match-desc{ margin-top: 30px; }
+</style>
+</block>
+
+
+<block name="head">
+<div class="page-heading">
+    <h3>
+        {$seotitle}
+    </h3>
+    <ul class="breadcrumb">
+        <li>
+            <a href="__ROOT__/">首页</a>
+        </li>
+        <li>
+            <a href="{:U('Match/index')}">赛事管理</a>
+        </li>
+        <li>
+            <a href="{:U('Match/attend')}">我的赛事</a>
+        </li>
+        <li class="active">{$seotitle}</li>
+    </ul>
+</div>
+</block>
+
+<block name="wrapper">
+    <div class="wrapper">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel">
+                    <div class="panel-heading">
+                        {$seotitle}
+                        <a href="{:U('Match/signup', ['match_id' => $_match['id']])}" class="btn btn-success btn-sm">我要报名</a>
+                    </div>
+
+                    <div class="panel-body">
+                        <!-- 赛事信息 -->
+                        <div class="match-wrap">
+                            <h3 class="text-center match-title">{$_match['title']}</h3>
+                            <div class="match-info">
+                                <p><strong>报名时间：</strong>{$_match['sign_start_time']|format_date} ~ {$_match['sign_end_time']|format_date}</p>
+                                <p><strong>比赛时间：</strong>{$_match['match_start_time']|format_date} ~ {$_match['match_end_time']|format_date}</p>
+                                <p><strong>现场联系电话：</strong>{$_match['contact_number']}</p>
+                            </div>                            
+                            <div class="match-desc">{$_match['content']|htmlspecialchars_decode}</div>
+                        </div>
+                        <!-- 赛事信息 -->                        
+                    </div>
+                </div>
+
+            </div>        
+        </div>
+    </div>
+</block>
+
+<block name="bottom-script">
+<script>
+high_light_menu('MatchEntry:index');  // 高亮菜单
+</script>
+</block>

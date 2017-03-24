@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<include file="Public/title" />
+</head>
+
+<body>
+<div class="mainWrap">
+	
+    <!--标题-->
+    <div class="mainWrapHeader">
+    	<h1 class="mainWrapTit">{$seotitle}</h1>
+        <!--切换需要，写对应ID，及class-->
+    </div>
+    <!--标题-->
+    
+    <div class="mainWrapBd">
+    	<div class="tab-con" id="tab-works">
+        	
+            <table cellpadding="0" border="0" cellspacing="0" class="stdedit">
+                <tr>
+                    <th>单图上传</th>
+                    <td>
+                        <input type="text" name="file" id="thumb" value="" class="sys_text sys_text50" />
+                        <a href="javascript:;" onclick="getOneFile('thumb', 'image')" class="btn btn_orange btn_inboxo"><span>上传</span></a>
+                        <a href="图片地址" class="btn btn_search"><span>查看</span></a>
+                    </td>
+                </tr>
+                <tr>
+                    <th>多图上传</th>
+                    <td>
+                        <a href="javascript:;" id="thumbs_upload" class="btn btn_orange btn_inboxo"><span>上传</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>上传展示</th>
+                    <td class="pics"></td>
+                </tr>
+            </table>
+            
+        </div>        
+        
+        <div class="stdeditSubmit"><input type="submit" class="submit" value="提 交" /> <input type="button" value="返回上一页" class="reset" onclick="history.go(-1);" /></div>
+    </div>
+    
+</div>
+</body>
+</html>
+<script>
+$(function(){
+    // 多图上传
+    $('#thumbs_upload').click(function(){
+        getUploadify('image', 100, function(res){
+            if (typeof res == 'object') {
+                var t = '';
+                $.each(res, function(i, v){
+                    t += '<img src="__ROOT__/' + v.filepath + '" height="40" /> '
+                })
+                $('.pics').html(t)
+            }
+        })
+    })
+})
+</script>

@@ -1,0 +1,127 @@
+<extend name="Layouts/app" />
+
+<block name="title">{$seotitle}</block>
+
+<block name="header-skin">
+</block>
+
+
+<block name="head">
+<div class="page-heading">
+    <h3>
+        {$seotitle}
+    </h3>
+    <ul class="breadcrumb">
+        <li>
+            <a href="__ROOT__/">首页</a>
+        </li>
+        <li>
+            <a href="{:U('Match/index')}">赛事管理</a>
+        </li>
+        <li>
+            <a href="{:U('Match/attend')}">我的赛事</a>
+        </li>
+        <li class="active">{$seotitle}</li>
+    </ul>
+</div>
+</block>
+
+<block name="wrapper">
+    <div class="wrapper">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel">
+                    <div class="panel-heading">
+                        {$seotitle}
+                    </div>
+
+                    <div class="panel-body">
+                        <form class="form-horizontal" method="post" action="{:U('team_update')}" id="form-submit">
+                            <input type="hidden" name="match_entry_id" value="{$match_entry['id']}">
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">代表队名称</label>
+                                <div class="col-md-10">
+                                    <input type="text" name="team_name" class="form-control" value="{$match_entry['team_name']}">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">带队老师</label>
+                                <div class="col-md-10">
+                                    <input type="text" name="team_teacher" class="form-control" value="{$match_entry['team_teacher']}">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">联系方式</label>
+                                <div class="col-md-10">
+                                    <input type="text" name="team_contact" class="form-control" value="{$match_entry['team_contact']}">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">QQ</label>
+                                <div class="col-md-10">
+                                    <input type="text" name="team_qq" class="form-control" value="{$match_entry['team_qq']}">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <button type="submit" class="btn btn-primary">保 存</button>&nbsp;&nbsp;
+                                    <button type="button" class="btn btn-default" onclick="history.go(-1);">返 回</button>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">数据下载</label>
+                                <div class="col-md-10">
+                                    <p class="form-control-static">
+                                        <a href="{:U('MatchEntryFile/event_entry', ['match_id' => $_match['id']])}" target="_blank">下载报名表</a>&nbsp;&nbsp;
+                                    </p>
+
+                                    <p class="form-control-static">
+                                        <a href="{:U('MatchEntryFile/fee_entry', ['match_id' => $_match['id']])}" target="_blank">下载已缴费报名表</a>&nbsp;&nbsp;
+                                    </p>
+
+                                    <p class="form-control-static">
+                                        <a href="{:U('MatchEntryFile/score_entry', ['match_id' => $_match['id']])}" target="_blank">下载成绩表</a>&nbsp;&nbsp;
+                                    </p>
+                                </div>
+
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+
+            </div>        
+        </div>
+    </div>
+</block>
+
+<block name="bottom-script">
+<script>
+// 表单提交
+$('#form-submit').submit(function(){
+    var form = $(this);
+    layer.load();
+
+    $.post(form.attr('action'), form.serialize(), function(d){
+        layer.closeAll('loading');
+        
+        if (d.status) {
+            window.location.reload();            
+        } else {
+            layer.msg(d.msg);
+            return false;
+        }
+    }, 'json');
+
+    return false;
+})
+
+high_light_menu('MatchEntry:team');  // 高亮菜单
+</script>
+</block>

@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>登陆中心 - 网站管理系统</title>
+<link type="text/css" rel="stylesheet" href="__PUBLIC__/admin/style/login.css" />
+<script type="text/javascript" src="__PUBLIC__/admin/js/jquery-1.7.min.js"></script>
+</head>
+
+<body>
+<div class="loginbox">
+	<div class="loginwrap">
+    	<h1 class="logintit">后台管理系统</h1>
+        <form method="post" onsubmit="return checkLogin();" id="from">
+        <div class="loginmain clearfix">
+            <div class="loginform">
+                <!--错误-->
+                <div class="loginmsg" id="loginmsg"></div>
+                <!--错误-->
+                <!--用户名-->
+                <div class="username">
+                	<div class="usernameinner">
+                    	<input type="text" name="username" id="username" tabindex="1" placeholder="请输入账号" value="admin" />
+                    </div>
+                </div>
+                <!--用户名-->
+                <!--密码-->
+                <div class="password">
+                	<div class="passwordinner">
+                    	<input type="password" name="password" id="password" placeholder="请输入密码" value="123456" />
+                    </div>
+                </div>
+                <!--密码-->
+                <!--验证码-->
+                <div class="codemain clearfix">
+                    <div class="code fl">
+                        <div class="codeinner">
+                            <input type="text" name="code" id="code" maxlength="6" placeholder="请输入验证码" />
+                        </div>
+                    </div>
+                	<div class="fr codeimg"><a href="javascript:;" onclick="codeImg();"><img src="{:U('Global/verify',array('name'=>'adminlogin','rnd'=>time()))}" width="150" height="50" class="codePic" /></a></div>
+                </div>
+                <!--验证码-->
+                <?php /*?>
+                <!--记住密码-->
+                <div class="keep"><label><input type="checkbox" name="keep" id="keep" value="1" />记住密码</label></div>   
+                <!--记住密码-->
+                <?php */?>
+            </div>
+        </div>
+        
+        <div class="loginbtn">
+        	<input type="submit" value="登录">
+            <input type="reset" value="取消">
+        </div>
+        </form>
+    </div>
+</div>
+
+<div class="copyright">版权所有 ©{:date('Y')}  粤ICP备15072594号-1</div>
+</body>
+</html>
+<script type="text/javascript">
+$(function(){
+	$("#username").focus();
+})
+function codeImg(){
+	$(".codePic").attr("src","{:U('Global/verify',array('name'=>'adminlogin'))}?rnd="+Math.random());
+}
+//验证登录
+function checkLogin(){
+    var username = $.trim($("#username").val());
+    var password = $.trim($("#password").val());
+    var code     = $.trim($("#code").val());
+    var keep     = !!$("#keep").attr("checked")*1;
+    var msg      = $("#loginmsg");
+	
+	/*if(username==''){msg.text("请输入账号！").show();$("#username").focus();return false;}
+	if(password==''){msg.text("请输入密码！").show();$("#password").focus();return false;}
+	if(code==''){msg.text("请输入验证码！").show();$("#code").focus();return false;}*/
+	
+	msg.text("验证中...").show();
+	$.post("{:U('check')}",{"username":username,"password":password,"code":code,"keep":keep,"rnd":Math.random()},function(data){
+		if(data.status){
+			msg.text("验证通过，跳转中...").show();
+			window.location = "{:U('admin/index/index')}"; return false;
+		}else{
+			msg.text(data.msg).show(); $("#code").val(''); codeImg(); return false;
+		}
+	},"json");
+	return false;	
+}
+</script>

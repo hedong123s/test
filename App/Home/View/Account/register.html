@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="ThemeBucket">
+    <link rel="shortcut icon" href="#" type="image/png">
+
+    <title>个人注册</title>
+
+    <link href="__PUBLIC__/css/style.css" rel="stylesheet">
+    <link href="__PUBLIC__/css/style-responsive.css" rel="stylesheet">
+
+    <style type="text/css">
+        .btn_1{width:80px; height:36px;  border:0px; font-size:12px; color:#fff; background:#6bc5a4; float:right; border-radius:5px;font-family:"微软雅黑";  }
+        .btn_2{width:80px; height:36px; border:0px; font-size:12px; color:#fff; background:#CCC; float:right; border-radius:5px;font-family:"微软雅黑"; }
+
+    </style>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="__PUBLIC__/js/html5shiv.js"></script>
+    <script src="__PUBLIC__/js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body class="login-body">
+
+<div class="container">
+    
+    <form class="form-signin"  action="{:U('doregister',array('type'=>I('type')))}" class="dataForm" id="dataForm">
+        <div class="form-signin-heading text-center">
+            <if condition="I('type') eq 1">
+                <h1 class="sign-title">机构注册</h1>
+            <else />
+                <h1 class="sign-title">个人注册</h1>
+            </if>    
+            <img src="__PUBLIC__/images/login-logo.png" alt=""/>
+        </div>
+
+
+        <div class="login-wrap">
+                <p>请输入您的个人资料</p>
+                <input type="text" autofocus="" name = 'username' placeholder="用户名" class="form-control">
+                <input type="text" autofocus="" name='nickname' placeholder="昵称" class="form-control">
+                <input type="password" placeholder="密码" name='password' class="form-control">
+                <input type="password" placeholder="确认密码" name='repassword' class="form-control">
+                <input type="text" autofocus="" placeholder="手机号码" class="form-control" name='mobile' style="width:60%;float:left;" id="mobile">
+                <input type="button" value="获取验证码" class="btn_1" id="btn_1"/>
+                <input type="text" name ='code' placeholder="验证码" class="form-control">
+                <if condition="I('type') eq 1">
+                    <input type="text" name ='team_name' placeholder="代表队名称" class="form-control">
+                </if>
+                <input type="submit" name="submit" class="btn btn-lg btn-login btn-block"/>            
+            <div class="registration">
+                已注册
+				<a class="" href="{:U('login')}">
+                    登录
+                </a>
+            </div>
+        </div>
+
+    </form>
+
+</div>
+
+
+
+<!-- Placed js at the end of the document so the pages load faster -->
+
+<!-- Placed js at the end of the document so the pages load faster -->
+<script src="__PUBLIC__/js/jquery-1.10.2.min.js"></script>
+<script src="__PUBLIC__/js/bootstrap.min.js"></script>
+<script src="__PUBLIC__/js/modernizr.min.js"></script>
+<script src="__PUBLIC__/plugin/layer/layer.js"></script>
+
+</body>
+</html>
+
+<script>
+var times = 60;
+function show() {
+    $("#btn_1").attr("disabled", true);//设置button不可用
+    times--;
+    $("#btn_1").val(times + "秒");
+    $("#btn_1").removeClass("btn_1").addClass("btn_2");
+    if (times == 0) {
+        $("#btn_1").removeAttr("disabled");//设置button不可用
+        $("#btn_1").val("重新发送");
+        $("#btn_1").removeClass("btn_2").addClass("btn_1");
+        times = 60;
+        return;
+    }
+    setTimeout("show()", 1000);
+}
+
+$("#btn_1").click(function(event) {
+    var phone = $("#mobile").val();
+    if(phone == ""){
+        layer.msg("请填写正确的手机号码");
+        return false;
+    }
+    layer.load();
+    $.post('{:U('account/sendphone')}', {'phone': phone }, function(data) {
+        layer.closeAll('loading');
+        //$("#btn_1").attr("disabled", true);
+        if(data.status == true){           
+            //layer.msg(data.msg);
+            show();
+            return false;
+        }else{
+            layer.msg(data.msg);
+            return false;
+        }
+       
+    },'json');
+});
+
+$('#dataForm').submit(function(){
+    var form = $(this);
+    //contentEditor.sync();
+    //layer.load();
+    $.post(form.attr('action'), form.serialize(), function(d){
+        //layer.closeAll('loading');
+        
+        if (d.status) {
+            layer.msg(d.msg);
+            ///layer.msg(d.msg);
+            window.location.href = d.url;            
+        } else {
+            layer.msg(d.msg);
+            //layer.msg(d.msg);
+            return false;
+        }
+    }, 'json');
+
+    return false;
+})
+</script>

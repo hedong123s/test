@@ -1,0 +1,182 @@
+<extend name="Layouts/applayer" />
+
+<block name="title">列表页</block>
+
+<block name="header-skin">
+</block>
+
+
+<block name="wrapper">
+    <div class="wrapper">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel">
+                    <div class="panel-heading">
+                        添加选手
+                    </div>
+					
+                    <div class="panel-body" >
+                    	<form class="form-signin layer-form" action="{:U('member/doauth',array('act'=>'player'))}" id="dataForm" method="post">
+                        <!-- tools -->
+                        <div class='t_title'>
+                            <span class='xm'>姓名</span>
+                            <span class='sfz'>身份证号码</span>
+                        </div>
+
+                        <div class="panel" >
+		                    <input type="text" class="control1" name="name" placeholder="请输入选手姓名" autofocus >
+				            <input type="text" class="control2" name="certid" placeholder="请输入身份证号码" autofocus>
+                            <span class="ok" style="display:none">已添加</span>
+                        				            
+		                </div> 
+
+                        <div class="panel">
+                            <input type="text" class="control1" name="name" placeholder="请输入选手姓名" autofocus >
+                            <input type="text" class="control2" name="certid" placeholder="请输入身份证号码" autofocus>
+                            <span class="ok" style="display:none">已添加</span>
+                        </div> 
+
+                        <div class="panel">
+                            <input type="text" class="control1" name="name" placeholder="请输入选手姓名" autofocus >
+                            <input type="text" class="control2" name="certid" placeholder="请输入身份证号码" autofocus>
+                            <span class="ok" style="display:none">已添加</span>
+                        </div> 
+
+                        <div class="panel">
+                            <input type="text" class="control1" name="name" placeholder="请输入选手姓名" autofocus >
+                            <input type="text" class="control2" name="certid" placeholder="请输入身份证号码" autofocus>
+                            <span class="ok" style="display:none">已添加</span>
+                        </div> 
+
+                        <div class="panel">
+                            <input type="text" class="control1" name="name" placeholder="请输入选手姓名" autofocus >
+                            <input type="text" class="control2" name="certid" placeholder="请输入身份证号码" autofocus>
+                            <span class="ok" style="display:none">已添加</span>
+                        </div> 
+
+                        <div class="panel">
+                            <input type="text" class="control1" name="name" placeholder="请输入选手姓名" autofocus >
+                            <input type="text" class="control2" name="certid" placeholder="请输入身份证号码" autofocus>
+                            <span class="ok" style="display:none">已添加</span>
+                        </div> 
+
+                        <div class="panel">
+                            <input type="text" class="control1" name="name" placeholder="请输入选手姓名" autofocus >
+                            <input type="text" class="control2" name="certid" placeholder="请输入身份证号码" autofocus>
+                            <span class="ok" style="display:none">已添加</span>
+                        </div> 
+
+                        <div class="panel">
+                            <input type="text" class="control1" name="name" placeholder="请输入选手姓名" autofocus >
+                            <input type="text" class="control2" name="certid" placeholder="请输入身份证号码" autofocus>
+                            <span class="ok" style="display:none">已添加</span>
+                        </div> 
+
+                        <div class="panel">
+                            <input type="text" class="control1" name="name" placeholder="请输入选手姓名" autofocus >
+                            <input type="text" class="control2" name="certid" placeholder="请输入身份证号码" autofocus>
+                            <span class="ok" style="display:none">已添加</span>
+                        </div> 
+
+                        <div class="panel">
+                            <input type="text" class="control1" name="name" placeholder="请输入选手姓名" autofocus >
+                            <input type="text" class="control2" name="certid" placeholder="请输入身份证号码" autofocus>
+                            <span class="ok" style="display:none">已添加</span>
+                        </div>
+
+
+
+                        <button class="btn btn-lg " type="submit">保存并关闭</button> 
+                        <button class="btn btn-lg" type="submit" style="margin-right:20px;">保存并继续添加</button> 
+		                </form>                   
+                    </div>
+                	
+                </div>
+            </div>        
+        </div>
+    </div>
+</block>
+
+<block name="bottom-script">
+<script>
+// 表单提交
+$('#dataForm').submit(function(){
+
+    //当你在iframe页面关闭自身时 
+    layer.load();         
+    var index = parent.layer.getFrameIndex(window.top.name); //先得到当前iframe层的索引
+    parent.layer.close(index); //再执行关闭 
+    window.top.location.reload();
+    //var form = $(this);
+    
+    /*$.post(form.attr('action'), form.serialize(), function(d){
+        layer.closeAll('loading');
+        
+        if (d.status) {
+            //当你在iframe页面关闭自身时          
+            var index = parent.layer.getFrameIndex(window.top.name); //先得到当前iframe层的索引
+            parent.layer.close(index); //再执行关闭 
+            window.top.location.reload();
+                       
+        } else {
+            layer.msg(d.msg);
+            return false;
+        }
+    }, 'json');*/
+
+    return false;
+})
+high_light_menu('{:U('Index/lists')}');  // 高亮菜单
+
+$(":input[name='name']").blur(function(event) {
+    var name = $(this).val();
+    $.post('{:U('checkname')}', {'name': name}, function(data) {
+        if(data.status == false){
+            //layer.msg(data.msg);
+            return false;
+        }
+        
+    });
+})
+
+$(":input[name='certid']").blur(function(event) {
+    var certid = $(this).val();
+    var okStyle = $(this).next();
+    var name =  $(this).prev().val(); 
+    $.post('{:U('checkcertid')}', {'certid': certid,'name':name}, function(data) {
+        if(data.status == false){
+            //layer.msg(data.msg);
+            okStyle.css({"display":"block"}).html(data.msg);
+            return false;
+        }else{
+            console.log(111111111);
+            okStyle.css({"display":"block"}).html("已成功添加");
+            //layer.msg(data.msg);
+            //console.log(okStyle);
+            
+            //console.log($(this).closest('span'));
+            //console.log($(this).find("span"));
+            //$(this).attr('disabled','disabled');
+            
+        }
+        
+    });
+
+})
+</script>
+
+<style type="text/css">
+    .panel{margin-bottom: 0px;width:100%;}
+    .form-signin{margin-top: 20px;}
+    .ok{font-size: 12px;color: green}
+    .err{font-size: 12px;color: red; position: relative;}
+    .control1{line-height: 36px; padding-left: 10px;width: 36%;margin-right: 20px;}
+    .control2{line-height: 36px; padding-left: 10px;width: 56%;}
+    .panel{position:relative;}
+    .ok{position:absolute;right:-38%;top:10px;}
+    .btn{background-color: #5cb85c;color:#fff}
+    .t_title{font-size: 16px;padding-bottom: 10px;}
+    .sfz{margin-left: 110px;}
+</style>
+</block>
+

@@ -1,0 +1,135 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
+<html  xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Language" content="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" /> 
+<title>广东省青年舞蹈协会</title>
+<meta name=keywords content="广东省青年舞蹈协会">
+<meta name=description content="广东省青年舞蹈协会">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0"> 
+<meta name="apple-mobile-web-app-capable" content="yes"> 
+<meta name="apple-mobile-web-app-status-bar-style" content="black"> 
+<meta name="format-detection" content="telephone=no"> 
+</head>
+
+    <link href="./css/common.css" rel="stylesheet" />
+<script src="http://bs.cwdance.cn/Public/js/jquery-1.10.2.min.js"></script>
+<body>
+    <a name="top"></a>
+    <div class="content resultsbg">
+		<div class="menutop"><a class="back" href="#"></a><h1>舞林号外<em>成绩查询系统</em></h1><span class="refresh"></span></div>
+		<h1 class="matchtitle">2016广东省标准舞 拉丁舞年度总决赛暨第十届珠江三角洲标准舞 拉丁舞公开赛</h1>
+		<h2 class="matchtitle_zb">主办方: 佛山市禅城区文化体育局 广东省青少年舞蹈协会 </h2>
+		<div align="center"><img src="images/score_title.png"  class="score_title"/></div>
+		<!--查询 -->
+		<form>
+		<dl class="scoresearch">
+		<dt><label for="types_0" class="cur"><input name="types" id="types_0" type="radio" value="0" />选手背号</label>
+		<label for="types_1"><input name="types" id="types_1" type="radio" value="1" />比赛组别</label>
+		<input name="key" type="tel"  class="keyinput" placeholder="请输入选手背号"/></dt>
+		<dd>
+		<input name="submit" type="button"  class="btn" value="查   询"/>
+		</dd>
+		</dl>
+		</form>
+		<!--查询 -->
+		<!--背号结果 -->
+		<div class="search_results"><table width="100%" border="1" cellpadding="2" cellspacing="0" bordercolor="#8d1612">
+  <tr>
+    <td class="th">背号</td>
+    <td class="th">参赛组别</td>
+    <td class="th">成绩</td>
+  </tr>
+  <tr>
+    <td rowspan="4" class="beihao">144</td>
+    <td>13岁以下六项组</td>
+    <td>晋级</td>
+  </tr>
+  <tr>
+    <td>13岁以下组S</td>
+    <td>淘汰</td>
+  </tr>
+  <tr>
+    <td>男子单人13岁以下组S</td>
+    <td>第二名</td>
+  </tr>
+  <tr>
+    <td>男子单人13岁以下组L</td>
+    <td>未进行</td>
+  </tr>
+</table>
+</div>
+		<!--背号结果 -->
+		<!--组别结果 -->
+		<div class="search_results">
+		<div class="teaminfo">
+		<div class="h1">组别代码：<strong>164 </strong> </div>
+		<div class="h2">组别名称：<strong>男子单人13岁以下组L</strong></div>
+		</div>
+		<table width="100%" border="1" cellpadding="2" cellspacing="0" bordercolor="#8d1612">
+  <tr>
+    <td class="th">背号</td>
+    <td class="th">姓名</td>
+    <td class="th">代表队</td>
+    <td class="th">成绩</td>
+  </tr>
+  <tr>
+    <td >144</td>
+    <td>陈坤</td>
+    <td>佛山市禅舞舞蹈培训中心</td>
+    <td>晋级</td>
+  </tr>
+  <tr>
+    <td >134</td>
+    <td>刘华</td>
+    <td>佛山市舞林号外培训中心</td>
+    <td>淘汰</td>
+  </tr>
+  <tr>
+    <td >156</td>
+    <td>黎明</td>
+    <td>广州市轻舞飞扬培训中心</td>
+    <td>第二名</td>
+  </tr>
+  <tr>
+    <td >202</td>
+    <td>黄伟</td>
+    <td>肇庆市飞舞舞蹈培训中心</td>
+    <td>未进行</td>
+  </tr>
+  <tr>
+    <td >304</td>
+    <td>张学</td>
+    <td>佛山市乐舞舞蹈培训中心</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td >502</td>
+    <td>郭富城</td>
+    <td>佛山市喜舞舞蹈培训中心</td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+</div>
+		<!--组别结果 -->
+		<div class="copy">版权所有：广东省青年舞蹈协会</div>
+    </div>
+<script>
+$(function(){
+	$("[name='types']").click(function(){
+		var txt=$(this).parent().text();
+		//alert(txt);
+		$(this).parent().siblings().removeClass('cur').end().addClass("cur");
+		$(".keyinput").attr("placeholder","请输入"+txt);
+	});
+	$(".refresh").click(function(){
+		location.reload();
+	});
+});
+</script>  
+
+
+</body>
+</html>

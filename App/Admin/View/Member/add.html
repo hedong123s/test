@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<include file="Public/title" />
+</head>
+
+<body>
+<div class="mainWrap">
+	
+    <!--标题-->
+    <div class="mainWrapHeader">
+    	<h1 class="mainWrapTit">{$seotitle}</h1>
+    </div>
+    <!--标题-->
+    
+    <form action="{:U('save',array('action'=>'add'))}" method="post" class="dataForm" id="dataForm">
+    <div class="mainWrapBd">
+    	<div class="tab-con" id="tab-works">
+            <table cellpadding="0" border="0" cellspacing="0" class="stdedit">
+                <tr>
+                    <th>用户名</th>
+                    <td><input type="text" name="username" id="username" class="sys_text" /></td>
+                </tr>
+                <tr>
+                    <th>密码</th>
+                    <td><input type="password" name="password" id="password" class="sys_text" maxlength="18" /></td>
+                </tr>
+                <tr>
+                    <th>确认密码</th>
+                    <td><input type="password" name="repassword" id="repassword" class="sys_text" maxlength="18" /></td>
+                </tr>
+                <tr>
+                    <th>称呼</th>
+                    <td><input type="text" name="nickname" id="nickname" class="sys_text" /></td>
+                </tr>
+                <tr>
+                    <th>手机</th>
+                    <td><input type="text" name="mobile" id="mobile" class="sys_text" /></td>
+                </tr>
+                <tr>
+                    <th>邮箱</th>
+                    <td><input type="text" name="email" id="email" class="sys_text" /></td>
+                </tr>
+                <tr>
+                    <th>用户类型</th>
+                    <td><input type="radio" name="type" value="0" checked="checked" class="sys_radio" />个人
+                        <input type="radio" name="type" value="1" class="sys_radio" />机构</td>
+                </tr>
+                <tr>
+                    <th>代表队名</th>
+                    <td><input type="text" name="team_name" id="team_name" class="sys_text" /></td>
+                </tr>
+                <tr>
+                    <th>代表队老师名</th>
+                    <td><input type="text" name="team_teacher" id="team_teacher" class="sys_text" /></td>
+                </tr>
+                <tr>
+                    <th>代表队老师电话</th>
+                    <td><input type="text" name="team_contact" id="team_contact" class="sys_text" /></td>
+                </tr>
+                <tr>
+                    <th>代表队老师qq</th>
+                    <td><input type="text" name="team_qq" id="team_qq" class="sys_text" /></td>
+                </tr>
+            </table>
+            
+        </div>        
+        
+        <div class="stdeditSubmit"><input type="submit" class="submit" value="提 交" /> <input type="button" value="返回上一页" class="reset" onclick="history.go(-1);" /></div>
+    </div>
+    </form>
+    
+</div>
+</body>
+</html>

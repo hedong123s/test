@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<include file="Public/title" />
+</head>
+
+<body>
+<div class="mainWrap">
+    <!--标题-->
+    <div class="mainWrapHeader" style="margin-bottom:20px;">
+    	<h1 class="mainWrapTit">{$matchname}</h1>
+
+    </div>
+    <!--标题-->
+
+        <!-- 搜索 start -->
+        <form action="{:U('__ACTION__')}" method="get" >
+            <input type="hidden" name="id" value="<?php echo I('id');?>" />
+            <div class="mainWrapSerach" style="padding-left:20px;">
+                组别代码：<input type="text" name="event_number" class="sys_text sys_text120" value="{$search['event_number']|default=''}" />&nbsp;&nbsp;
+                组别名称：<input type="text" name="event_title" class="sys_text sys_text120" value="{$search['event_title']|default=''}" />&nbsp;&nbsp;
+                <button type="submit" name="action" value="search" class="submit">搜 索</button>&nbsp;&nbsp;
+                <a href="{:U('Entered/matchlist',array('type'=>'bm'))}"  class="btn btn_folder"><span>返回赛程列表</span></a>
+                <a href="{:U('MatchEvents/index',array('match_id'=>I('id')))}"  class="btn btn_folder"><span>组别管理</span></a>
+            </div>
+        </form>
+        <!-- 搜索 end -->
+    
+    <div class="mainWrapBd">
+        
+        <form action="{:U('batchDo')}" method="post" name="doForm" onsubmit="return batchConfirm(this);">
+        <!--列表-->
+        <table cellpadding="0" cellspacing="0" border="0" class="stdtable stdtablelist">
+
+            <colgroup>
+                <col style="width:10px;" />
+                <col style="width:50px;" />
+                <col style="width:280px;"/>
+                <col />
+                <col />
+                <col />
+                <col />
+                <col/>
+            </colgroup>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th class="center">组别报名ID</th>
+                    <th>组别名称</th>
+                    <th>组别编码</th>
+                    <th>舞种</th>
+                    <th>服务费</th>
+                    <!--<th>用户</th>-->
+                    <!--<th>参赛选手</th>-->
+					<!--<th>创建（报名）时间</th>-->
+                    <th>参赛组数</th>
+                    <th>报名人数</th>
+                    <th>确认状态</th>
+                    <th>确认时间</th>           
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+            	<volist name="pages['lists']" id="fo">
+
+                    <?php
+                       $rr = M("match_event_entrys")->where(array("match_id"=>$fo['match_id'],'event_id'=>$fo['event_number']))->select();
+                       //var_dump($rr);
+                    ?>
+                <tr>
+                    <td>
+                        <input type="checkbox" name="group_id" value="{$fo['id']}"/>
+                    </td>
+                    <td align="center">
+                    	{$fo['id']}
+                    </td>
+                    <td>
+                    	{$fo['event_title']}
+                    </td>
+                    <td>
+                    	{$fo['event_number']}
+                    </td>
+                    <td>
+                    	{$fo['dances']}
+                    </td>
+                    <td>
+                    	{$fo['fee']}
+                    </td>
+                    <td>
+                        <?php echo count($rr);?>
+                    </td>
+                    <td>
+
+                        <?php //var_dump($rr);
+                        $c= 0;
+                        foreach($rr as $k1=>$v1){
+                            $count = M("match_event_entry_player")->where(array("event_entry_id"=>$v1['id']))->count();
+                            $c += $count;
+                        }
+                        echo $c
+
+                        ?>
+                    </td>
+                    <td>
+                    	<if condition="$fo['status'] == 0">
+                    		<span style="">待确认</span>
+                    	<elseif condition="$fo['status'] == 1"/>
+                    		<span style="color:green">已确认</span>
+                    	<else/>
+                    		<span style="color:red">已取消</span>
+                    	</if>
+                    </td>
+                    <td>
+                        <if condition="$fo['audit_time'] != 0">
+                    	{$fo['audit_time']|format_date}
+                        <else/>
+                        -
+                        </if>
+                    </td>
+
+                    <td>
+                        <a href="{:U('audit_pass',array('id'=> $fo['id']))}">确认</a> &nbsp;&nbsp; 
+                        
+                        <a href="{:U('audit_nopass',array('id'=> $fo['id']))}">取消</a> &nbsp;&nbsp; 
+                        
+                    </td>
+                </tr>
+                </volist>
+                <if condition="$pages['total'] eq 0">
+                <tr>
+                    <td align="center" class="data-nothing" colspan="11">暂无相关信息</td>
+                </tr>
+                </if>
+            </tbody>
+        </table>
+        <!--列表-->
+        
+        <!--工具-->
+        <div class="tableTools clearfix">
+            <div class="tableOptions fl">
+                <input type="checkbox" name="sub" class="submit"  id="chkAll"/>全选/反选
+                <input type="button" name="sub" class="submit" value="批量审核" id="sub"/>
+            </div>
+            <div class="fr">
+                {$pages['show']}
+            </div>
+        </div>
+        <!--工具-->
+        </form>
+        
+    </div>
+    
+</div>
+</body>
+</html>
+
+<script type="text/javascript">
+    $("#chkAll").click(function(){
+        if($(this).attr("checked") == 'checked'){
+            $(".stdtable input[type='checkbox']").attr("checked",$(this).attr("checked"));
+        }else{
+            $(".stdtable input[type='checkbox']").attr("checked",false);
+        }
+        
+    })
+
+    $("#sub").click(function() {
+        var arr = $(".stdtable input[type='checkbox']").val();
+        var vals="";
+        $(".stdtable input[type='checkbox']").each(function(){ 
+            if($(this).prop("checked")==true){ 
+            vals += $(this).val()+",";
+        } 
+        }); 
+        if(vals == ''){
+            alert("请选择组别然后才能批量审核");
+            return false;
+        }
+
+        $.post('{:U('batch_pass')}', {'id_str': vals}, function(d){
+            
+            if (d.status) {
+                //当你在iframe页面关闭自身时          
+                var index = parent.layer.getFrameIndex(window.top.name); //先得到当前iframe层的索引
+                parent.layer.close(index); //再执行关闭 
+                window.location.reload();
+                           
+            } else {
+                layer.msg(d.msg);
+                return false;
+            }
+        }, 'json');
+
+        return false;
+
+    });
+</script>

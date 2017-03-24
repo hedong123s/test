@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<include file="Public/title" title="编辑页参考模版" />
+</head>
+
+<body>
+<div class="mainWrap">
+	
+    <!--标题-->
+    <div class="mainWrapHeader">
+    	<h1 class="mainWrapTit">欢迎页</h1>
+        <ul class="tab-nav clearfix">
+            <li class="cur"><a href="#tab-works">待审核工作</a></li>
+            <li><a href="#tab-notice">公告</a></li>
+            <li><a href="#tab-update">更新补丁</a></li>
+            <li><a href="http://www.baidu.com" target="_blank">百度首页</a></li>
+        </ul>
+        <!--切换需要，写对应ID，及class-->
+    </div>
+    <!--标题-->
+    
+    <form>
+    <div class="mainWrapBd">
+    	<div class="tab-con" id="tab-works">
+        	
+            <table cellpadding="0" border="0" cellspacing="0" class="stdedit">
+                <tr>
+                    <th>会员号</th>
+                    <td><input type="text" class="sys_text" /></td>
+                </tr>
+                <tr>
+                    <th>下拉</th>
+                    <td><select><option>请选择</option><option>请选择</option></select></td>
+                </tr>
+                <tr>
+                    <th>会员号</th>
+                    <td><textarea class="sys_text sys_textarea350"></textarea></td>
+                </tr>
+                <tr>
+                    <th>日期</th>
+                    <td>
+                    	<input type="text" id="posttime" class="sys_text ico-calendar" />
+                        <script type="text/javascript">
+						date = new Date();
+						Calendar.setup({
+							inputField     :    "posttime",
+							ifFormat       :    "%Y-%m-%d %H:%M:%S",
+							showsTime      :    true,
+							timeFormat     :    "24"
+						});
+						</script>
+                    </td>
+                </tr>
+            </table>
+            
+        </div>
+        <div class="tab-con" id="tab-notice" style="display:none;">
+        	
+            <table cellpadding="0" border="0" cellspacing="0" class="stdedit">
+                <tr>
+                    <th>会员号2</th>
+                    <td><input type="text" class="sys_text sys_text350" /></td>
+                </tr>
+                <tr>
+                    <th>日期</th>
+                    <td><input type="text" class="sys_text ico-calendar" /></td>
+                </tr>
+                <tr>
+                    <th>下拉</th>
+                    <td><select><option>请选择</option><option>请选择</option></select></td>
+                </tr>
+                <tr>
+                    <th>会员号</th>
+                    <td><textarea class="sys_text sys_textarea350"></textarea></td>
+                </tr>
+            </table>
+            
+        </div>
+        <div class="tab-con" id="tab-update" style="display:none;">
+        	
+            <table cellpadding="0" border="0" cellspacing="0" class="stdedit">
+                <tr>
+                    <th>会员号</th>
+                    <td><input type="text" class="sys_text" /></td>
+                </tr>
+                <tr>
+                    <th>日期</th>
+                    <td><input type="text" class="sys_text ico-calendar" /></td>
+                </tr>
+                <tr>
+                    <th>下拉</th>
+                    <td><select><option>请选择</option><option>请选择</option></select></td>
+                </tr>
+                <tr>
+                    <th>会员号</th>
+                    <td><textarea class="sys_text sys_textarea350"></textarea></td>
+                </tr>
+            </table>
+            
+        </div>
+        
+        
+        <div class="stdeditSubmit"><input type="submit" class="submit" value="提 交" /> <input type="button" value="返回上一页" class="reset" onclick="history.go(-1);" /></div>
+    </div>
+    </form>
+    
+</div>
+</body>
+</html>

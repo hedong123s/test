@@ -1,0 +1,111 @@
+<extend name="Layouts/applayer" />
+
+<block name="title">修改资料</block>
+
+
+<block name="wrapper">
+    <div class="wrapper">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel">
+                    <div class="panel-heading">
+                        修改资料
+                    </div>
+
+                    <div class="panel-body">
+                        <form class="form-horizontal" method="post" action="{:U('doedit')}" id="form-submit">
+                            <input type="hidden" name="id" value="{$res['id']}">
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">用户名</label>
+                                <div class="col-md-10">
+                                    <input type="text" name="team_name" class="form-control" value="{$res['username']}" disabled/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">昵称</label>
+                                <div class="col-md-10">
+                                    <input type="text" name="team_teacher" class="form-control" value="{$res['nickname']}" disabled>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">手机号</label>
+                                <div class="col-md-10">
+                                    <input type="text" name="team_contact" class="form-control" value="{$res['mobile']}" disabled>
+                                </div>
+                            </div>                           
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">代表队名称</label>
+                                <div class="col-md-10">
+                                    <input type="text" name="team_name" class="form-control" value="{$res['team_name']}">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">带队老师</label>
+                                <div class="col-md-10">
+                                    <input type="text" name="team_teacher" class="form-control" value="{$res['team_teacher']}">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">联系方式</label>
+                                <div class="col-md-10">
+                                    <input type="text" name="team_contact" class="form-control" value="{$res['team_contact']}">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2">QQ</label>
+                                <div class="col-md-10">
+                                    <input type="text" name="team_qq" class="form-control" value="{$res['team_qq']}">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <button type="submit" class="btn btn-primary">保 存</button>&nbsp;&nbsp;
+                                    <button type="button" class="btn btn-default" onclick="history.go(-1);">返 回</button>
+                                </div>
+                            </div>
+                           
+
+                        </form>
+                    </div>
+                </div>
+
+            </div>        
+        </div>
+    </div>
+</block>
+
+<block name="bottom-script">
+<script>
+// 表单提交
+$('#form-submit').submit(function(){
+    var form = $(this);
+    layer.load();
+
+    $.post(form.attr('action'), form.serialize(), function(d){
+        layer.closeAll('loading');
+        
+        if (d.status) {
+            //当你在iframe页面关闭自身时          
+            var index = parent.layer.getFrameIndex(window.top.name); //先得到当前iframe层的索引
+            parent.layer.close(index); //再执行关闭 
+            window.top.location.reload();       
+        } else {
+            layer.msg(d.msg);
+            return false;
+        }
+    }, 'json');
+
+    return false;
+})
+
+//high_light_menu('MatchEntry:team');  // 高亮菜单
+</script>
+</block>

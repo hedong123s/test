@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<include file="Public/title" />
+<script charset="utf-8" src="__PUBLIC__/admin/plugin/kindeditor/kindeditor.js"></script>
+<script>
+var contentEditor;
+KindEditor.ready(function(K) {
+    contentEditor = K.create('textarea[name="content"]', {
+        uploadJson : '{:U('Kindeditor/upload')}'
+    });
+});
+</script>
+</head>
+
+<body>
+<div class="mainWrap">
+	
+    <!--标题-->
+    <div class="mainWrapHeader">
+    	<h1 class="mainWrapTit">{$seotitle}</h1>
+        <!--切换需要，写对应ID，及class-->
+    </div>
+    <!--标题-->
+    
+    <form action="{:U('update')}" method="post" class="dataForm" id="dataForm">
+    <input type="hidden" name="id" value="{$info['id']}" />
+    <div class="mainWrapBd">
+    	<div class="tab-con" id="tab-works">
+            <table cellpadding="0" border="0" cellspacing="0" class="stdedit">
+                <tr>
+                    <th>赛事名称</th>
+                    <td><input type="text" name="title" id="title" class="sys_text sys_text350" value="{$info['title']}" /></td>
+                </tr>
+                <tr>
+                    <th>赛事描述</th>
+                    <td><textarea name="content" style="width:700px;height:400px;visibility:hidden;">{$info['content']}</textarea></td>
+                </tr>
+                <tr>
+                    <th>阶段</th>
+                    <td>
+                        <select name="stage">
+                            <foreach name="defineMatchStage" item="value">
+                            <option value="{$key}" <if condition="$info['stage'] eq $key">selected="selected"</if>>{$value}</option>
+                            </foreach>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>现场联系电话</th>
+                    <td>
+                        <input type="text" name="contact_number" class="sys_text" value="{$info['contact_number']}" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>报名时间</th>
+                    <td>
+                        <input type="text" name="sign_start_time" class="sys_text sys_text120" value="{$info['sign_start_time']|format_date}" onclick="WdatePicker({startDate:'%y-%M-%d 00:00:00', dateFmt:'yyyy-MM-dd HH:mm:ss'});" /> - 
+                        <input type="text" name="sign_end_time" class="sys_text sys_text120" value="{$info['sign_end_time']|format_date}" onclick="WdatePicker({startDate:'%y-%M-%d 00:00:00', dateFmt:'yyyy-MM-dd HH:mm:ss'});" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>比赛时间</th>
+                    <td>
+                        <input type="text" name="match_start_time" class="sys_text sys_text120" value="{$info['match_start_time']|format_date}" onclick="WdatePicker({startDate:'%y-%M-%d 00:00:00', dateFmt:'yyyy-MM-dd HH:mm:ss'});" /> - 
+                        <input type="text" name="match_end_time" class="sys_text sys_text120" value="{$info['match_end_time']|format_date}" onclick="WdatePicker({startDate:'%y-%M-%d 00:00:00', dateFmt:'yyyy-MM-dd HH:mm:ss'});" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>截止支付时间</th>
+                    <td>
+                        <input type="text" name="pay_end_time" class="sys_text sys_text120" value="{$info['pay_end_time']|format_date}" onclick="WdatePicker({startDate:'%y-%M-%d 00:00:00', dateFmt:'yyyy-MM-dd HH:mm:ss'});" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>前台是否显示</th>
+                    <td>
+                        <label><input type="checkbox" value="1" name="status" <if condition="$info['status'] eq 1">checked="checked"</if> /> 是</label>
+                    </td>
+                </tr>
+            </table>            
+        </div>        
+        
+        <div class="stdeditSubmit"><input type="submit" class="submit" value="提 交" /> <input type="button" value="返回上一页" class="reset" onclick="history.go(-1);" /></div>
+    </div>
+    </form>
+    
+</div>
+</body>
+</html>
+<script>
+$('#dataForm').submit(function(){
+    var form = $(this);
+    contentEditor.sync();
+    layer.load();
+
+    $.post(form.attr('action'), form.serialize(), function(d){
+        layer.closeAll('loading');
+        
+        if (d.status) {
+            window.location.href = d.url;            
+        } else {
+            layer.msg(d.msg);
+            return false;
+        }
+    }, 'json');
+
+    return false;
+})
+</script>

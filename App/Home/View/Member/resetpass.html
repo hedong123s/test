@@ -1,0 +1,65 @@
+<extend name="Layouts/applayer" />
+
+<block name="title">列表页</block>
+
+<block name="header-skin">
+</block>
+
+
+
+<block name="wrapper">
+    <div class="wrapper" style="height:100%">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel">
+                    <div class="panel-heading">
+                        重设密码
+                    </div>
+					
+                    <div class="panel-body">
+                    	<form class="form-signin" action="{:U('doreset')}" id="dataForm" method="post">
+                        <!-- tools -->
+                        <div class="panel">
+		                    <input type="password" class="form-control" name="pass" placeholder="请输入原密码" autofocus>
+				            <input type="password" class="form-control" name="newpass" placeholder="请输入新密码">
+				            <input type="password" class="form-control" name="repass" placeholder="请再次输入新密码">
+				            <input type="hidden" name="id" value="<?php echo I('id'); ?>"/> 
+				            <button class="btn btn-lg btn-login btn-block" type="submit">确认</button>                            
+		                </div> 
+		                </form>                   
+                    </div>
+                	
+                </div>
+            </div>        
+        </div>
+    </div>
+</block>
+
+<block name="bottom-script">
+<script>
+// 表单提交
+$('#dataForm').submit(function(){
+    var form = $(this);
+    layer.load();
+    $.post(form.attr('action'), form.serialize(), function(d){
+        layer.closeAll('loading');
+        
+        if (d.status) {
+            //当你在iframe页面关闭自身时          
+            var index = parent.layer.getFrameIndex(window.top.name); //先得到当前iframe层的索引
+            parent.layer.close(index); //再执行关闭 
+            window.top.location.reload();
+                       
+        } else {
+            layer.msg(d.msg);
+            return false;
+        }
+    }, 'json');
+
+    return false;
+})
+
+high_light_menu('{:U('Index/lists')}');  // 高亮菜单
+
+</script>
+</block>
