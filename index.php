@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -28,3 +29,4 @@ require ROOT_PATH . 'vendor/autoload.php';
 
 // 引入ThinkPHP入口文件
 require APP_PATH . 'Thinkphp/ThinkPHP.php';
+
