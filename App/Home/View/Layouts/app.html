@@ -58,5 +58,15 @@
 <script src="__PUBLIC__/js/scripts.js"></script>
 <block name="bottom-script"></block>
 
+<!--全选和反选功能-->
+<script type="text/javascript">
+    $(function(){
+        $('.checkall').change(function(){
+            var checkbox=$(this).closest("table").find("input:checkbox");
+            $(this).is(":checked")?checkbox.attr("checked",true):checkbox.attr("checked",false);
+        })
+    });
+</script>
+
 </body>
 </html>

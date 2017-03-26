@@ -400,6 +400,18 @@ if (!function_exists('calcAge')){
     }
 }
 
+if (!function_exists('ageToDate')){
+    /**
+     * 根据年龄计算出生年的时间戳
+     * @param  [type] $age 岁数
+     * @return [type]      时间戳
+     */
+    function ageToTime($age){
+        // $startDate = date_create(date('Y-m-d', $time));
+        return time()-$age*365*24*3600;
+    }
+}
+
 if (! function_exists('generateGroupIdcard')) {
     /**
      * 生成一个集体舞的选手用户的身份证（虚拟，非个人用户）

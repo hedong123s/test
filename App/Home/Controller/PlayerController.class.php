@@ -1,6 +1,7 @@
 <?php
 namespace Home\Controller;
 use Think\Page;
+use Think\PagePlayer;
 use Think\Model;
 use Common\Support\IdCard;
 /**
@@ -159,5 +160,104 @@ class PlayerController extends CommonController{
 		}
 		
 	}
-	
+
+	/**
+	 * 通过ajax根据选手的ID数组    删除
+	 * 			选手信息			palyers
+	 * 			用户选手表信息		user_players
+	 * 			赛事选手背号信息	match_player_backs
+	 */
+	public function ajaxDelAll(){
+		$data = I('post.ids', '');
+		if($data == ''){
+			$this->ajaxReturn('未选择');
+		}
+		//开启事务
+		$db = D();
+		$db->startTrans();
+		//先删除user_players表中的信息
+		if(false === M('user_players')->where(array(
+					'player_id'=>array('in', $data),
+			))->delete()){
+			$db->rollback();
+			$this->ajaxReturn('删除失败');
+		};
+		//再删除match_player_backs中的信息
+		if(false === M('match_player_backs')->where(array(
+				'player_id' => array('in', $data)
+			))->delete()){
+			$db->rollback();
+			$this->ajaxReturn('删除失败');
+		};
+		//在删除选手信息
+		if(false === M('players')->where(array(
+				'id' => array('in', $data)
+			))->delete()){
+			$db->rollback();
+			$this->ajaxReturn('删除失败');
+		};
+
+		//提交事务
+		$db->commit();
+		$this->ajaxReturn('ok');
+	}
+
+	/**
+	 * ajax根据条件搜索选手
+	 */
+	public function ajaxSearchPlayer(){
+
+		$userid = session('user.userid');
+		//过滤参数，并添加where条件
+		$where['a.uid'] = $userid;
+		//id
+		$id = I('get.id', 0, 'intval');
+		if($id !== 0){
+			$where['b.id'] = array('like', '%'.$id.'%');
+		}
+		//姓名
+		$name = I('get.name', '', 'trim');
+		if($name !== ''){
+			$where['b.name'] = array('like', '%'.$name.'%');
+		}
+		//年龄
+		$minAge = I('get.minAge', 0, 'intval');
+		$minAgeTime = ageToTime($minAge-1);
+		$maxAge = I('get.maxAge', 0, 'intval');
+		$maxAgeTime = ageToTime($maxAge);
+		if($minAge !==0 && $maxAge !==0){
+			$where['unix_timestamp(b.birthday)'] = array('between', array($maxAgeTime, $minAgeTime));
+		}elseif($minAge !== 0 && $maxAge===0){
+			$where['unix_timestamp(b.birthday)'] = array('elt', $minAgeTime);
+		}elseif($maxAge !== 0 && $minAge===0){
+			$where['unix_timestamp(b.birthday)'] = array('egt', $maxAgeTime);
+		}
+		//性别
+		$sex = I('get.sex', '', 'trim');
+		if($sex !== ''){
+			$where['b.sex'] = $sex;
+		}
+		$upModel = M('user_players');
+		//计算总数并分页
+		$count = $upModel->alias('a')
+				->where($where)
+				->join('left join __PLAYERS__ b on a.player_id=b.id')
+				->count();
+		$page = new PagePlayer($count, 10);
+		$pages['show'] = $page->show();
+		$pages['total'] = $count;
+		$pages['lists'] = $upModel->alias('a')
+				->field('a.is_self, b.id, b.name, b.idcard, b.sex, b.birthday')
+				->where($where)
+				->join('left join __PLAYERS__ b on a.player_id=b.id')
+				->limit($page->firstRow.','.$page->listRows)
+				->order('b.id desc')
+				->select();
+		//计算年龄
+		foreach($pages['lists'] as $k=>&$v){
+			$v['age'] = calcAge(strtotime($v['birthday']));
+		}
+		$this->ajaxReturn($pages, 'json');
+	}
+
 }

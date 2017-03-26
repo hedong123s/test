@@ -69,7 +69,7 @@ class MemberController extends BaseController {
             // 开始写入
             $model->startTrans();
 
-            $d['password'] = hash_make($d['password']);
+            $d['password'] = md5($d['password']);
             $d['created_ip'] = get_client_ip();
             $d['updated_at'] = $d['created_at'] = time();
             if(!$model->create($d)){
@@ -114,7 +114,7 @@ class MemberController extends BaseController {
             // 开始写入
             $model->startTrans();
 
-            $d['password'] = hash_make($d['password']);
+            $d['password'] = md5($d['password']);
             $d['updated_at'] = $d['created_at'] = time();
             if(!$model->create($d)){
                 $this->error($model->getError());

@@ -61,14 +61,14 @@ class PagePlayer{
         }
     }
 
-    /**
-     * 生成链接URL
-     * @param  integer $page 页码
-     * @return string
-     */
-    private function url($page){
-        return str_replace(urlencode('[PAGE]'), $page, $this->url);
-    }
+//    /**
+//     * 生成链接URL
+//     * @param  integer $page 页码
+//     * @return string
+//     */
+//    private function url($page){
+//        return str_replace(urlencode('[PAGE]'), $page, $this->url);
+//    }
 
     /**
      * 组装分页链接
@@ -93,22 +93,22 @@ class PagePlayer{
 
         //上一页
         $up_row  = $this->nowPage - 1;
-        $up_page = $up_row > 0 ? '<li><a class="prev" href="' . $this->url($up_row) . '">' . $this->config['prev'] . '</a></li>' : '';
+        $up_page = $up_row > 0 ? '<li><a class="prev" href="javascript:;" onclick="ajaxSearchPlayer('.$up_row.');">' . $this->config['prev'] . '</a></li>' : '';
 
         //下一页
         $down_row  = $this->nowPage + 1;
-        $down_page = ($down_row <= $this->totalPages) ? '<li><a class="next" href="' . $this->url($down_row) . '">' . $this->config['next'] . '</a></li>' : '';
+        $down_page = ($down_row <= $this->totalPages) ? '<li><a class="next" href="javascript:;" onclick="ajaxSearchPlayer('.$down_row.');">' . $this->config['next'] . '</a></li>' : '';
 
         //第一页
         $the_first = '';
         if($this->totalPages > $this->rollPage && ($this->nowPage - $now_cool_page) >= 1){
-            $the_first = '<li><a class="first" href="' . $this->url(1) . '">' . $this->config['first'] . '</a></li>';
+            $the_first = '<li><a class="first"href="javascript:;" onclick="ajaxSearchPlayer(1);">' . $this->config['first'] . '</a></li>';
         }
 
         //最后一页
         $the_end = '';
         if($this->totalPages > $this->rollPage && ($this->nowPage + $now_cool_page) < $this->totalPages){
-            $the_end = '<li><a class="end" href="' . $this->url($this->totalPages) . '">' . $this->config['last'] . '</a></li>';
+            $the_end = '<li><a class="end" href="javascript:;" onclick="ajaxSearchPlayer('.$this.$this->totalPages.');">' . $this->config['last'] . '</a></li>';
         }
 
         //数字连接
@@ -124,13 +124,13 @@ class PagePlayer{
             if($page > 0 && $page != $this->nowPage){
 
                 if($page <= $this->totalPages){
-                    $link_page .= '<li><a class="num" href="' . $this->url($page) . '">' . $page . '</a></li>';
+                    $link_page .= '<li><a class="num" href="javascript:;" onclick="ajaxSearchPlayer('.$page.');">' . $page . '</a></li>';
                 }else{
                     break;
                 }
             }else{
                 if($page > 0 && $this->totalPages != 1){
-                    $link_page .= '<li class="active"><a href="' . $this->url($page) . '">' . $page . '</a></li>';
+                    $link_page .= '<li class="active"><a href="javascript:;" onclick="ajaxSearchPlayer('.$page.');">' . $page . '</a></li>';
                 }
             }
         }

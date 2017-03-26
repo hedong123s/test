@@ -1,102 +1,1 @@
-<extend name="Layouts/app" />
-
-<block name="title">列表页</block>
-
-<block name="header-skin">
-</block>
-
-
-<block name="head">
-<div class="page-heading">
-    <h3>
-        选手列表
-    </h3>
-    <ul class="breadcrumb">
-        <li>
-            <a href="#">首页</a>
-        </li>
-        <li class="active"> 选手列表 </li>
-    </ul>
-</div>
-</block>
-
-<block name="wrapper">
-    <div class="wrapper">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="panel">
-                    <div class="panel-heading">
-                        选手列表
-                    </div>
-
-                    <div class="panel-body">
-                        <!-- tools -->
-                        <div class="clearfix mb-12">
-                            <div class="pull-left">
-                                <if condition="$isrealname == true || $usertype==1">
-                                <a href="javascript:;" class="btn btn-success" onclick="layer.open({type:2,content:'{:U(\'player/add\')}',title:'添加选手',area:['92%','90%']})"><i class="fa fa-plus"></i> 新增</a>
-                                <else/>
-                                <a href="javascript:;" class="btn btn-success" onclick="layer.open({type:2,content:'{:U(\'member/nameauth\',array(\'act\'=>\'noreal\'))}',title:'用户实名认证',area:['92%','90%']})"><i class="fa fa-plus"></i> 新增</a>
-                                </if>
-                            </div>
-                        </div>
-                        <p></p>
-                        <!-- tools -->
-
-                        <!-- 表格 -->
-                        <div class="row">
-                            <div class="col-md-12">
-                                <table class="table table-bordered table-striped table-hover table-condensed">
-                                    <thead>
-                                        <tr>
-                                            <th width="60">ID</th>
-                                            <th width="220">姓名</th>
-                                            <th width="220">性别</th>
-                                            <th width="220">身份证号码</th>                              
-                                            <th width="220">岁数</th>
-                                            <th width="120">操作</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <volist name="list" id="i">
-                                        <tr>
-                                            <td>{$i.id}</td>
-                                            <td>{$i.name}<if condition="$i['is_self'] == '1'"><span style="color:red">(本人)</span></if></td>
-                                            <td><if condition="$i['sex'] == 1">男<else/>女</if></td>
-                                            <td>{$i.idcard}</td>
-                                            <td><?php echo calcAge(strtotime($i['birthday']));?>岁</td>
-                                            <td><if condition="$i['is_self'] != '1'"><a href="{:U('delete',array('id'=>$i['id']))}" onclick="return confirm('确认删除吗？');">删除</a></if></td>
-                                        </tr>
-                                        </volist>
-                                        <if condition="$pages['total'] eq 0">
-                                        <tr>
-                                            <td align="center" class="data-nothing" colspan="9">暂无相关信息</td>
-                                        </tr>
-                                        </if>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>                    
-                        <!-- 表格 -->
-
-                       <!--分页-->
-                        <div class="clearfix list-pagination">
-                            <div class="pull-right">
-                                {$pages['show']}
-                            </div>
-                        </div>
-                        <!--分页-->
-                        
-                    </div>
-                </div>
-
-            </div>        
-        </div>
-    </div>
-</block>
-
-<block name="bottom-script">
-<script>
-high_light_menu('{:U('Index/lists')}');  // 高亮菜单
-</script>
-</block>
+<extend name="Layouts/app" /><block name="title">列表页</block><block name="header-skin"></block><block name="head"><div class="page-heading">    <h3>        选手列表    </h3>    <ul class="breadcrumb">        <li>            <a href="#">首页</a>        </li>        <li class="active"> 选手列表 </li>    </ul></div></block><block name="wrapper">    <style type="text/css">        #searchForm{width:50%; float:right; }    </style>    <div class="wrapper">        <div class="row">            <div class="col-md-12">                <div class="panel">                    <div class="panel-heading">                        选手列表                    </div>                    <div class="panel-body">                        <!-- tools -->                        <div class="clearfix mb-12">                            <div class="pull-left">                                <if condition="$isrealname == true || $usertype==1">                                <a href="javascript:;" class="btn btn-success" onclick="layer.open({type:2,content:'{:U(\'player/add\')}',title:'添加选手',area:['92%','90%']})"><i class="fa fa-plus"></i> 新增</a>                                <else/>                                <a href="javascript:;" class="btn btn-success" onclick="layer.open({type:2,content:'{:U(\'member/nameauth\',array(\'act\'=>\'noreal\'))}',title:'用户实名认证',area:['92%','90%']})"><i class="fa fa-plus"></i> 新增</a>                                </if>                                <a href="javascript:void(0);" class="btn btn-success" onclick="ajaxDelAll();"><i class="fa fa-plus"></i> 删除选中</a>                            </div>                            <!--搜索表单  start-->                            <form id="searchForm" method="get">                                选手ID:<input type="text" name="id" value="" size="4"/>                                选手姓名:<input type="text" name="name" value="" size="10"/>                                性别:<select name="sex">                                <option value="">--请选择--</option>                                <option value="0">未知</option>                                <option value="1">男</option>                                <option value="2">女</option>                            </select>                                年龄:<input type="text" name="minAge" value="" size="4"/>-                                <input type="text" name="maxAge" value="" size="4"/>                                <input class="btn btn-success" type="button" onclick="ajaxSearchPlayer(1);" value="搜索" />                            </form>                            <!--搜索表单  end-->                        </div>                        <p></p>                        <!-- tools -->                        <!-- 表格 -->                        <div class="row">                            <div class="col-md-12">                                <form id="delAll" action="{:U('Player/delAll')}" method="post">                                <table class="table table-bordered table-striped table-hover table-condensed">                                    <thead>                                        <tr>                                            <th width="60"><input type="checkbox" class="checkall"></th>                                            <th width="60">ID</th>                                            <th width="220">姓名</th>                                            <th width="220">性别</th>                                            <th width="220">身份证号码</th>                                                                          <th width="220">岁数</th>                                            <th width="120">操作</th>                                        </tr>                                    </thead>                                    <tbody id="playerInfo">                                        <volist name="list" id="i">                                        <tr>                                            <td><input type="checkbox" name="ids[]" value="{$i.id}"></td>                                            <td>{$i.id}</td>                                            <td>{$i.name}<if condition="$i['is_self'] == '1'"><span style="color:red">(本人)</span></if></td>                                            <td><if condition="$i['sex'] == 1">男<else/>女</if></td>                                            <td>{$i.idcard}</td>                                            <td><?php echo calcAge(strtotime($i['birthday']));?>岁</td>                                            <td><if condition="$i['is_self'] != '1'"><a href="{:U('delete',array('id'=>$i['id']))}" onclick="return confirm('确认删除吗？');">删除</a></if></td>                                        </tr>                                        </volist>                                        <if condition="$pages['total'] eq 0">                                        <tr>                                            <td align="center" class="data-nothing" colspan="9">暂无相关信息</td>                                        </tr>                                        </if>                                    </tbody>                                </table>                                </form>                            </div>                        </div>                                            <!-- 表格 -->                       <!--分页-->                        <div class="clearfix list-pagination">                            <div class="pull-right">                                {$pages['show']}                            </div>                        </div>                        <!--分页-->                                            </div>                </div>            </div>                </div>    </div></block><block name="bottom-script"><script>    high_light_menu('{:U('Index/lists')}');  // 高亮菜单    /*通过ajax删除选中的选手*/    function ajaxDelAll(){        //如果用户未选中任何选手，则请求无效        if($('#delAll').find('input:checkbox:checked').size() == 0){            return false;        }        if(confirm('确认删除？')){            $.post('{:U("Player/ajaxDelAll")}', $('#delAll').serialize(), function(data){                if(data === 'ok'){                    location.reload();                }else{                    alert(data);                }            });        }    }    /*根据条件搜索用户*/    function ajaxSearchPlayer(nowPage){        //将搜索表单信息和当前页合并        var param = $('#searchForm').serializeArray();        param.push({'name':'p', 'value':nowPage});        //发送请求        $.get('{:U("Player/ajaxSearchPlayer")}',param, function(data){            console.log(data);            var str = ''            $(data.lists).each(function(k, v){                var sex = '保密';                if(v.sex == 1){                    sex = '男';                }else if(v.sex == 2){                    sex = '女';                }               str += '<tr>' +                       '<td><input type="checkbox" name="ids[]" value="'+ v.id+'"></td>' +                       '<td>'+ v.id+'</td>' +                       '<td>'+ v.name+'<if condition="'+ v.is_self+' eq 1"><span style="color:red">(本人)</span></if></td>' +                       '<td>'+sex+'</td><td>'+ v.idcard+'</td>' +                       '<td>'+ v.age+'岁</td>' +                       '<td><if condition="'+ v.is_self+' neq 1"><a href="{:U("delete",array("id"=>'+ v.id+'))}" onclick="return confirm('+'确认删除吗？'+');">删除</a></if></td>' +                       '</tr>';            });            $('#playerInfo').html(str);            $('.pull-right').html(data.show);        },'json');    }</script></block>
